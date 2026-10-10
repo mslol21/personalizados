@@ -77,6 +77,7 @@ export interface VisualCommunicationService {
   id: string;
   slug: string;
   title: string;
+  name?: string;
   shortDescription: string;
   fullDescription: string;
   materials: string[];
