@@ -7,29 +7,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "tsc --noEmit",
+    "test": "node scripts/security-tests.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
-    "clsx": "^2.1.1",
-    "cookie": "^1.0.2",
-    "jsonwebtoken": "^9.0.2",
-    "lucide-react": "^1.47.0",
-    "next": "^15.2.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwind-merge": "^2.5.5"
+    "clsx": "2.1.1",
+    "jsonwebtoken": "9.0.3",
+    "lucide-react": "1.54.0",
+    "next": "15.5.27",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwind-merge": "2.6.1",
+    "zod": "4.6.5",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.0",
-    "@types/cookie": "^0.6.0",
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/node": "^22.10.2",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.2"
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/jsonwebtoken": "9.0.10",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "autoprefixer": "10.6.1",
+    "postcss": "8.5.29",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "postcss": "$postcss"
   }
 }

@@ -1,3 +1,5 @@
+import { collection, campaignSchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getCampaigns, saveCampaigns } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -11,8 +13,7 @@ export async function GET(request: Request) {
     const campaigns = getCampaigns(isAdmin && includeInactive);
     return NextResponse.json(campaigns);
   } catch (error) {
-    console.error("Error fetching campaigns:", error);
-    return NextResponse.json({ error: "Erro ao buscar campanhas." }, { status: 500 });
+    return apiError(error);
   }
 }
 
@@ -22,7 +23,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const campaigns = await request.json();
+    const campaigns = collection(campaignSchema, await readJson(request));
     if (!Array.isArray(campaigns)) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
@@ -30,7 +31,6 @@ export async function PUT(request: Request) {
     saveCampaigns(campaigns);
     return NextResponse.json({ success: true, campaigns });
   } catch (error) {
-    console.error("Error updating campaigns:", error);
-    return NextResponse.json({ error: "Erro ao salvar campanhas." }, { status: 500 });
+    return apiError(error);
   }
 }

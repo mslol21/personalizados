@@ -30,7 +30,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        setItems(JSON.parse(saved));
+        const parsed: unknown = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setItems(parsed.filter((item): item is QuoteItem =>
+            item && typeof item === "object" &&
+            ["cartId", "productId", "productSlug", "productName", "categoryName", "image"].every(key => typeof item[key] === "string") &&
+            Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 100000 &&
+            (item.price === undefined || (typeof item.price === "number" && Number.isFinite(item.price) && item.price >= 0)) &&
+            ["customNamePhrase", "customTheme", "customObservations"].every(key => item[key] === undefined || typeof item[key] === "string")
+          ).slice(0, 100));
+        }
       }
     } catch (e) {
       console.error("Failed to load cart from localStorage", e);
@@ -63,6 +72,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQuantity = (cartId: string, quantity: number) => {
+    if (!Number.isFinite(quantity)) return;
+    quantity = Math.min(100000, Math.trunc(quantity));
     if (quantity <= 0) {
       removeItem(cartId);
       return;

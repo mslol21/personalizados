@@ -3,13 +3,14 @@
 import React, { useState } from "react";
 import { FAQItem } from "@/types";
 import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
-import { STORE_INFO } from "@/lib/constants";
+import { useStoreSettings } from "@/lib/settings-context";
 
 interface FAQSectionProps {
   faqs: FAQItem[];
 }
 
 export function FAQSection({ faqs }: FAQSectionProps) {
+  const STORE_INFO = useStoreSettings();
   const publishedFaqs = faqs.filter((f) => f.isPublished);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 

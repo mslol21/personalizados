@@ -1,4 +1,5 @@
 "use client";
+import { useStoreSettings } from "@/lib/settings-context";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -19,11 +20,12 @@ import {
 } from "lucide-react";
 
 export function QuotePageClient() {
+  const settings = useStoreSettings();
   const { items, removeItem, updateQuantity, clearCart, totalQuantity } = useCart();
   const [copied, setCopied] = useState(false);
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const { whatsappUrl, plainTextMessage } = formatCartWhatsAppMessage(items, origin);
+  const { whatsappUrl, plainTextMessage } = formatCartWhatsAppMessage(items, origin, settings.whatsapp);
 
   const handleCopy = () => {
     if (navigator.clipboard) {

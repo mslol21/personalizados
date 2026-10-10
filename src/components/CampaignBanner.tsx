@@ -19,7 +19,7 @@ export function CampaignBannerSection({ campaigns }: CampaignBannerProps) {
   return (
     <section className="py-6 bg-brand-gold-50/50 border-b border-brand-border/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-gold-700 via-brand-gold-600 to-amber-700 p-6 sm:p-8 text-white shadow-card">
+        <div className="relative overflow-hidden rounded-xl bg-[#716039] p-6 sm:p-8 text-white shadow-card">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
               {campaign.badge && (

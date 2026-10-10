@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
 
           <div className="w-16 h-16 rounded-full bg-brand-surface border border-brand-gold-300 p-1 mx-auto shadow-subtle mb-3">
             <Image
-              src="/images/brand/logo-mark.svg"
+              src="/images/brand/monogram-original.png"
               alt="Logo CA"
               width={64}
               height={64}

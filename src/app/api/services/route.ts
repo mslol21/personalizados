@@ -1,3 +1,5 @@
+import { collection, serviceSchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getServices, saveServices } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -12,8 +14,7 @@ export async function GET(request: Request) {
     const services = getServices(isAdmin && includeDrafts);
     return NextResponse.json(services);
   } catch (error) {
-    console.error("Error fetching services:", error);
-    return NextResponse.json({ error: "Erro ao buscar serviços." }, { status: 500 });
+    return apiError(error);
   }
 }
 
@@ -23,7 +24,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const services = await request.json();
+    const services = collection(serviceSchema, await readJson(request));
     if (!Array.isArray(services)) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
@@ -31,7 +32,6 @@ export async function PUT(request: Request) {
     saveServices(services);
     return NextResponse.json({ success: true, services });
   } catch (error) {
-    console.error("Error updating services:", error);
-    return NextResponse.json({ error: "Erro ao salvar serviços." }, { status: 500 });
+    return apiError(error);
   }
 }

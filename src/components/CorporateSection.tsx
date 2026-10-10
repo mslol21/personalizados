@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { VisualCommunicationService } from "@/types";
-import { STORE_INFO } from "@/lib/constants";
+import { useStoreSettings } from "@/lib/settings-context";
 import {
   Building2,
   Sparkles,
@@ -18,9 +18,10 @@ interface CorporateSectionProps {
 }
 
 export function CorporateSection({ services }: CorporateSectionProps) {
+  const STORE_INFO = useStoreSettings();
   // Show services that are confirmed_publicado (or draft with disclaimer)
   const displayServices = services.filter(
-    (s) => s.status === "confirmado_publicado" || s.status === "rascunho_pendente"
+    (s) => s.status === "confirmado_publicado"
   );
 
   return (

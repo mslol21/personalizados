@@ -1,8 +1,9 @@
+export const dynamic = "force-dynamic";
 import { MetadataRoute } from "next";
 import { getProducts } from "@/lib/storage";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://criativoartespersonalizados.com.br";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const products = getProducts(false);
 
   const staticRoutes: MetadataRoute.Sitemap = [

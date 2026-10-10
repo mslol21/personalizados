@@ -1,4 +1,5 @@
 "use client";
+import { useStoreSettings } from "@/lib/settings-context";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -22,6 +23,7 @@ interface ProductDetailClientProps {
 }
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
+  const settings = useStoreSettings();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(product.minQuantity || 1);
   const [customNamePhrase, setCustomNamePhrase] = useState("");
@@ -47,7 +49,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       customTheme,
       customObservations,
     },
-    originUrl
+    originUrl,
+    settings.whatsapp
   );
 
   const handleAddToCart = (e: React.FormEvent) => {

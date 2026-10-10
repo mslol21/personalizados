@@ -1,4 +1,5 @@
 "use client";
+import { useStoreSettings } from "@/lib/settings-context";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 
 export function QuoteDrawer() {
+  const settings = useStoreSettings();
   const {
     items,
     removeItem,
@@ -34,7 +36,7 @@ export function QuoteDrawer() {
   if (!isDrawerOpen) return null;
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const { whatsappUrl, plainTextMessage } = formatCartWhatsAppMessage(items, origin);
+  const { whatsappUrl, plainTextMessage } = formatCartWhatsAppMessage(items, origin, settings.whatsapp);
 
   const handleCopy = () => {
     if (navigator.clipboard) {

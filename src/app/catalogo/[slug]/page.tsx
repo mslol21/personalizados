@@ -28,7 +28,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${product.name} | Criativo Artes Personalizados`,
       description: product.description,
-      images: [product.images?.[0] || "/images/brand/logo.svg"],
+      images: [product.images?.[0] || "/images/brand/logo-original.png"],
     },
   };
 }
@@ -59,25 +59,21 @@ export default async function ProductDetailPage({
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: product.images?.[0] || "https://criativoartespersonalizados.com.br/images/brand/logo.svg",
+    image: product.images?.[0] || "/images/brand/logo-original.png",
     category: product.categoryName,
-    offers: {
+    ...(product.price !== undefined ? { offers: {
       "@type": "Offer",
-      price: product.price ? product.price.toString() : "0.00",
+      price: product.price.toString(),
       priceCurrency: "BRL",
-      availability: "https://schema.org/InStock",
-      seller: {
-        "@type": "Organization",
-        name: "Criativo Artes Personalizados",
-      },
-    },
+      seller: { "@type": "Organization", name: settings.companyName },
+    } } : {}),
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }}
       />
 
       <Header notice={settings.bannerNoticeActive ? settings.bannerNotice : undefined} />

@@ -3,6 +3,7 @@
 import React from "react";
 import {
   Sparkles,
+  Lightbulb,
   Search,
   PenTool,
   MessageCircle,
@@ -45,8 +46,8 @@ export function StepsSection() {
             <Sparkles className="w-3.5 h-3.5 text-brand-gold-600" />
             <span>Processo Simples e Direto</span>
           </div>
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-graphite-900 tracking-tight">
-            Como Solicitar seu Personalizado
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-graphite-900 tracking-tight">
+            Da ideia ao seu personalizado.
           </h2>
           <p className="text-sm sm:text-base text-brand-graphite-600 mt-2">
             Em apenas quatro etapas você transforma sua ideia em um presente único ou brinde marcante.
@@ -59,14 +60,14 @@ export function StepsSection() {
             return (
               <div
                 key={step.number}
-                className="relative flex flex-col p-6 rounded-2xl bg-brand-bg border border-brand-border hover:border-brand-gold-300 transition-all shadow-subtle group"
+                className="relative flex flex-col p-6 rounded-lg bg-brand-bg border border-brand-border hover:border-brand-gold-300 transition-all shadow-subtle group"
               >
                 {/* Step Number Badge */}
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-display text-2xl font-bold text-brand-gold-600 group-hover:text-brand-gold-700 transition-colors">
                     {step.number}
                   </span>
-                  <div className="w-10 h-10 rounded-xl bg-brand-surface border border-brand-border flex items-center justify-center text-brand-gold-700 shadow-subtle">
+                  <div className="w-10 h-10 rounded-full bg-brand-surface border border-brand-border flex items-center justify-center text-brand-gold-700 shadow-subtle">
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
@@ -93,7 +94,7 @@ export function StepsSection() {
         {/* Helpful Info Callout */}
         <div className="mt-8 p-4 rounded-xl bg-brand-gold-50/80 border border-brand-gold-200/80 max-w-3xl mx-auto text-center">
           <p className="text-xs sm:text-sm text-brand-gold-900 font-medium">
-            💡 <strong>Dica importante:</strong> Você pode enviar fotos em alta resolução, referências de arte ou logos da sua empresa diretamente na nossa conversa do WhatsApp após solicitar o orçamento!
+            <Lightbulb className="inline-block w-4 h-4 mr-2" aria-hidden="true" /><strong>Sua referência faz a diferença.</strong> Você pode enviar fotos em alta resolução, referências de arte ou logos da sua empresa diretamente na nossa conversa do WhatsApp após solicitar o orçamento!
           </p>
         </div>
       </div>

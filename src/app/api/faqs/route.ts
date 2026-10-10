@@ -1,3 +1,5 @@
+import { collection, faqSchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getFaqs, saveFaqs } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -11,8 +13,7 @@ export async function GET(request: Request) {
     const faqs = getFaqs(isAdmin && includeAll);
     return NextResponse.json(faqs);
   } catch (error) {
-    console.error("Error fetching FAQs:", error);
-    return NextResponse.json({ error: "Erro ao buscar perguntas frequentes." }, { status: 500 });
+    return apiError(error);
   }
 }
 
@@ -22,7 +23,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const faqs = await request.json();
+    const faqs = collection(faqSchema, await readJson(request));
     if (!Array.isArray(faqs)) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
@@ -30,7 +31,6 @@ export async function PUT(request: Request) {
     saveFaqs(faqs);
     return NextResponse.json({ success: true, faqs });
   } catch (error) {
-    console.error("Error updating FAQs:", error);
-    return NextResponse.json({ error: "Erro ao salvar perguntas frequentes." }, { status: 500 });
+    return apiError(error);
   }
 }

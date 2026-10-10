@@ -28,7 +28,7 @@ export default async function HomePage() {
   const products = getProducts(false);
   const categories = getCategories(false);
   const occasions = getOccasions(false);
-  const services = getServices(true); // Include drafts with badge for transparency
+  const services = getServices(false);
   const faqs = getFaqs(false);
   const campaigns = getCampaigns(false);
   const galleryItems = getGalleryItems(false);
