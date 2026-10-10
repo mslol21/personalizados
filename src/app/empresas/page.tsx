@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 export default async function EmpresasPage() {
-  const services = getServices(true);
+  const services = getServices(false);
   const settings = getSettings();
 
   return (

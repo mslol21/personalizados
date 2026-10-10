@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { StoreSettings } from "@/types";
 import {
   MapPin,
@@ -27,11 +28,11 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
                 <MapPin className="w-3.5 h-3.5 text-brand-gold-600" />
                 <span>Nossa Localização &amp; Atendimento</span>
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-graphite-900 tracking-tight">
-                Venha nos Conhecer ou Fale Conosco
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-graphite-900 tracking-tight">
+                Uma loja perto de você.
               </h2>
               <p className="text-sm sm:text-base text-brand-graphite-600 mt-2 leading-relaxed">
-                Estamos localizados no Jardim Arpoador, na Zona Oeste de São Paulo. Faça seu pedido online ou visite nossa loja para retirar seus produtos personalizados.
+                Visite a Criativo Artes no Jardim Arpoador, em São Paulo. Converse com a equipe sobre a sua ideia e combine os detalhes do seu personalizado.
               </p>
             </div>
 
@@ -138,6 +139,9 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
 
           {/* Interactive Directions & Fast Quote Box Column */}
           <div className="lg:col-span-6 bg-brand-surface p-6 sm:p-8 rounded-3xl border border-brand-border shadow-card space-y-6">
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+              <Image src="/images/real/loja-criativo-artes.webp" alt="Fachada da loja Criativo Artes no Jardim Arpoador" fill sizes="(max-width: 1023px) 90vw, 560px" className="object-cover" />
+            </div>
             <div className="border-b border-brand-border pb-4">
               <h3 className="font-display text-xl font-bold text-brand-graphite-900">
                 Atendimento Rápido no WhatsApp
@@ -183,7 +187,7 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
             </div>
 
             <div className="p-4 rounded-xl bg-brand-gold-50/60 border border-brand-gold-200 text-xs text-brand-gold-900">
-              📍 <strong>Local de retirada:</strong> Avenida General Asdrúbal da Cunha, 1278 — Jardim Arpoador, São Paulo — SP.
+              <MapPin className="inline-block w-4 h-4 mr-2" aria-hidden="true" /><strong>Visite nossa loja:</strong> {settings.address.fullAddress}
             </div>
           </div>
         </div>

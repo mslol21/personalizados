@@ -315,8 +315,9 @@ export const DEFAULT_PRODUCTS: Product[] = [
     isFeatured: true,
     isPublished: true,
     images: [
-      "/images/products/caneca-personalizada-1.svg",
-      "/images/products/caneca-personalizada-2.svg",
+      "/images/real/caneca-foto.webp",
+      "/images/real/caneca-nome.webp",
+      "/images/real/caneca-pets.webp",
     ],
     customizationOptions: {
       allowNameOrPhrase: true,

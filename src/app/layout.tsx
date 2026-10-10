@@ -54,9 +54,9 @@ export const metadata: Metadata = {
     siteName: "Criativo Artes Personalizados",
     images: [
       {
-        url: "/images/brand/logo.svg",
-        width: 800,
-        height: 600,
+        url: "/images/brand/logo-original.png",
+        width: 719,
+        height: 586,
         alt: "Logo Criativo Artes Personalizados",
       },
     ],
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Criativo Artes — Brindes e Personalizados",
     description: "Canecas, brindes e personalizados para presentear, celebrar e dar destaque à sua marca.",
-    images: ["/images/brand/logo.svg"],
+    images: ["/images/brand/logo-original.png"],
   },
   robots: {
     index: true,
@@ -85,7 +85,7 @@ export default function RootLayout({
     "@type": "LocalBusiness",
     name: STORE_INFO.companyName,
     alternateName: STORE_INFO.commercialName,
-    image: `${siteUrl}/images/brand/logo.svg`,
+    image: `${siteUrl}/images/brand/logo-original.png`,
     telephone: `+${STORE_INFO.whatsapp}`,
     url: siteUrl,
     address: {

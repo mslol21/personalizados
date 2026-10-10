@@ -56,3 +56,9 @@ npm audit
 `npm run lint` executa a checagem de tipos; não é uma análise ESLint. A suíte de regressão inicia um servidor de produção próprio na porta 3219, usa credenciais geradas e uma cópia temporária do catálogo e limpa os dados após o teste. Requer build prévio. Nunca a execute apontando para a loja de produção.
 
 Veja `SECURITY_REVIEW.md` para as vulnerabilidades corrigidas e pendências externas.
+
+## Identidade visual
+
+O cabeçalho, rodapé, painel e favicon utilizam a marca original recortada das imagens fornecidas. A página inicial e o produto de caneca cerâmica usam fotos reais dessas referências; a seção de contato inclui a fachada. Os demais arquivos de demonstração ainda precisam ser substituídos por fotos aprovadas da empresa.
+
+O layout usa tons de creme, oliva e dourado, títulos com maior hierarquia, ícones Lucide com traço uniforme e navegação adaptada para celular. Os dados de contato continuam editáveis nas configurações.

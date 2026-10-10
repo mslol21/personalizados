@@ -355,7 +355,7 @@ export function AdminDashboardClient({
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-brand-gold-50 border border-brand-gold-300 p-0.5">
                 <Image
-                  src="/images/brand/logo-mark.svg"
+                  src="/images/brand/monogram-original.png"
                   alt="Logo CA"
                   width={36}
                   height={36}

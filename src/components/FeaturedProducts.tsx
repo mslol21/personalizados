@@ -26,11 +26,11 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
               <Sparkles className="w-3.5 h-3.5 text-brand-gold-600" />
               <span>Destaques da Criativo Artes</span>
             </div>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-graphite-900 tracking-tight">
-              Mais Pedidos &amp; Recomendados
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-brand-graphite-900 tracking-tight">
+              Um detalhe que faz diferença.
             </h2>
             <p className="text-sm text-brand-graphite-600 mt-1 max-w-xl">
-              Confira os produtos favoritos de nossos clientes para presentear, comemorar datas especiais e equipar equipes.
+              Uma seleção de personalizados para presentear, celebrar e dar forma à sua marca.
             </p>
           </div>
 

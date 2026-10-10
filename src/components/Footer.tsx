@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { BrandLogo } from "./BrandLogo";
 import { useStoreSettings } from "@/lib/settings-context";
 import {
   MapPin,
@@ -29,23 +29,7 @@ export function Footer() {
               href="/"
               className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-400 rounded-lg group"
             >
-              <div className="w-10 h-10 rounded-full bg-brand-surface p-1 border border-brand-gold-400">
-                <Image
-                  src="/images/brand/logo-mark.svg"
-                  alt="Logo CA"
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div>
-                <div className="font-display text-xl font-bold text-white leading-none">
-                  Criativo <span className="text-brand-gold-400">Artes</span>
-                </div>
-                <span className="text-[10px] font-semibold tracking-widest text-brand-gold-300 uppercase mt-0.5 block">
-                  Brindes &amp; Personalizados
-                </span>
-              </div>
+              <span className="rounded-md bg-white p-3 inline-flex"><BrandLogo /></span>
             </Link>
 
             <p className="text-xs sm:text-sm text-brand-graphite-400 leading-relaxed">

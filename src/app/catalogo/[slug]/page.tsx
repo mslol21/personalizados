@@ -28,7 +28,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${product.name} | Criativo Artes Personalizados`,
       description: product.description,
-      images: [product.images?.[0] || "/images/brand/logo.svg"],
+      images: [product.images?.[0] || "/images/brand/logo-original.png"],
     },
   };
 }
@@ -59,7 +59,7 @@ export default async function ProductDetailPage({
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: product.images?.[0] || "/images/brand/logo.svg",
+    image: product.images?.[0] || "/images/brand/logo-original.png",
     category: product.categoryName,
     ...(product.price !== undefined ? { offers: {
       "@type": "Offer",
