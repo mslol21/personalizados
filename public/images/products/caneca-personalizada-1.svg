@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#FBF9F5" />
+      <stop offset="100%" stop-color="#EFE9E0" />
+    </radialGradient>
+    <linearGradient id="mugGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8ECEF" />
+      <stop offset="15%" stop-color="#FFFFFF" />
+      <stop offset="75%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#D5DCE2" />
+    </linearGradient>
+    <linearGradient id="goldDeco" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#996515" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#1A1D20" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="600" fill="url(#bgGlow)" rx="24" />
+  
+  <!-- Subtle decorative badge -->
+  <rect x="30" y="30" width="110" height="32" rx="16" fill="#FAF6EC" stroke="#E8D29F" stroke-width="1" />
+  <text x="85" y="51" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#87661E" text-anchor="middle">★ Mais Pedido</text>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="300" cy="490" rx="180" ry="24" fill="#2C3036" opacity="0.08" />
+  <ellipse cx="300" cy="485" rx="130" ry="14" fill="#2C3036" opacity="0.12" />
+
+  <!-- Mug Handle -->
+  <path d="M 370 230 C 470 230 470 380 370 380" fill="none" stroke="#E4E9EE" stroke-width="36" stroke-linecap="round" filter="url(#dropShadow)" />
+  <path d="M 370 230 C 466 230 466 380 370 380" fill="none" stroke="#FFFFFF" stroke-width="26" stroke-linecap="round" />
+
+  <!-- Mug Body -->
+  <g filter="url(#dropShadow)">
+    <rect x="190" y="190" width="200" height="260" rx="16" fill="url(#mugGradient)" stroke="#E1E7EC" stroke-width="1" />
+    <!-- Top Rim -->
+    <ellipse cx="290" cy="190" rx="100" ry="18" fill="#F8FAFB" stroke="#D1D9E0" stroke-width="2" />
+    <ellipse cx="290" cy="190" rx="90" ry="14" fill="#ECEFF2" />
+  </g>
+
+  <!-- Printed Custom Area on Mug -->
+  <rect x="210" y="230" width="160" height="180" rx="8" fill="#FAF7F2" stroke="url(#goldDeco)" stroke-width="1.5" />
+  
+  <!-- Dedication Art inside Mug -->
+  <circle cx="290" cy="285" r="32" fill="#EADCC7" stroke="url(#goldDeco)" stroke-width="1" />
+  <text x="290" y="292" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" font-weight="700" fill="#87661E" text-anchor="middle">♥</text>
+  
+  <text x="290" y="340" font-family="'Cormorant Garamond', Georgia, serif" font-size="18" font-weight="700" fill="#2C3036" text-anchor="middle">
+    Melhor Mãe do Mundo
+  </text>
+  <text x="290" y="360" font-family="'Inter', sans-serif" font-size="11" font-weight="500" fill="#A6802C" text-anchor="middle">
+    COM AMOR &amp; CARINHO
+  </text>
+  <text x="290" y="385" font-family="'Inter', sans-serif" font-size="10" font-weight="400" fill="#6B7280" text-anchor="middle">
+    Sua Foto &amp; Nome Aqui
+  </text>
+
+  <!-- Gift Ribbon Accent -->
+  <path d="M 285 220 L 290 230 L 295 220" fill="url(#goldDeco)" />
+</svg>

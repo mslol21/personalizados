@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+    <defs>
+      <radialGradient id="bgGlow12" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#FBF7EE" />
+      </radialGradient>
+      <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E2C78A" />
+        <stop offset="100%" stop-color="#B4833E" />
+      </linearGradient>
+      <filter id="shadow12">
+        <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#4D390A" flood-opacity="0.12" />
+      </filter>
+    </defs>
+    <rect width="600" height="600" fill="url(#bgGlow12)" rx="24" />
+    <ellipse cx="300" cy="510" rx="170" ry="20" fill="#4D390A" opacity="0.1" />
+    <!-- Box Body -->
+    <g filter="url(#shadow12)">
+      <!-- Mug inside box peek -->
+      <rect x="250" y="160" width="100" height="120" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" />
+      <path d="M 330 180 C 370 180 370 230 330 230" fill="none" stroke="#FFFFFF" stroke-width="12" />
+      <text x="300" y="225" font-family="'Cormorant Garamond', Georgia, serif" font-size="16" font-weight="700" fill="#87661E" text-anchor="middle">♥ Especial</text>
+      <!-- Hamper Box Front -->
+      <path d="M 140 250 L 460 250 L 420 480 L 180 480 Z" fill="url(#boxGrad)" stroke="#87661E" stroke-width="2" />
+      <!-- Ribbon and Bow -->
+      <rect x="285" y="250" width="30" height="230" fill="#881337" />
+      <circle cx="300" cy="250" r="22" fill="#BE123C" />
+      <path d="M 300 250 C 260 210 230 240 280 250 Z" fill="#E11D48" />
+      <path d="M 300 250 C 340 210 370 240 320 250 Z" fill="#E11D48" />
+    </g>
+    <text x="300" y="370" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" font-weight="700" fill="#FFFFFF" text-anchor="middle">Kit Presente Criativo</text>
+    <text x="300" y="398" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#FAF5E8" text-anchor="middle">CANECAS + CHOCOLATES + LAÇO</text>
+  </svg>

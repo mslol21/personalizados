@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+    <defs>
+      <radialGradient id="bgGlow3" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#E8ECEF" />
+      </radialGradient>
+      <linearGradient id="magicGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#1E293B" />
+        <stop offset="45%" stop-color="#334155" />
+        <stop offset="55%" stop-color="#D4AF37" />
+        <stop offset="100%" stop-color="#FAF5E6" />
+      </linearGradient>
+      <filter id="shadow3">
+        <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.15" />
+      </filter>
+    </defs>
+    <rect width="600" height="600" fill="url(#bgGlow3)" rx="24" />
+    <ellipse cx="300" cy="490" rx="170" ry="22" fill="#0F172A" opacity="0.12" />
+    <!-- Steam -->
+    <path d="M 260 160 Q 250 130 265 110 Q 280 90 270 70" fill="none" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+    <path d="M 295 155 Q 310 125 295 105 Q 280 85 300 65" fill="none" stroke="#C59E3F" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+    <path d="M 330 160 Q 320 130 335 110" fill="none" stroke="#E2C78A" stroke-width="3" stroke-linecap="round" opacity="0.4" />
+    <!-- Handle -->
+    <path d="M 370 230 C 470 230 470 380 370 380" fill="none" stroke="#1E293B" stroke-width="26" stroke-linecap="round" filter="url(#shadow3)" />
+    <!-- Body -->
+    <g filter="url(#shadow3)">
+      <rect x="190" y="190" width="200" height="260" rx="16" fill="url(#magicGrad)" />
+      <ellipse cx="290" cy="190" rx="100" ry="18" fill="#334155" stroke="#1E293B" stroke-width="2" />
+      <ellipse cx="290" cy="190" rx="90" ry="14" fill="#0F172A" />
+    </g>
+    <!-- Revealed Area -->
+    <text x="290" y="380" font-family="'Cormorant Garamond', Georgia, serif" font-size="20" font-weight="700" fill="#78350F" text-anchor="middle">Surpresa Revelada!</text>
+    <text x="290" y="405" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#92400E" text-anchor="middle">★ EFEITO TERMOSSENSÍVEL ★</text>
+  </svg>
