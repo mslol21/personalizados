@@ -1,3 +1,5 @@
+import { collection, gallerySchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getGalleryItems, saveGalleryItems } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -11,8 +13,7 @@ export async function GET(request: Request) {
     const gallery = getGalleryItems(isAdmin && includeAll);
     return NextResponse.json(gallery);
   } catch (error) {
-    console.error("Error fetching gallery:", error);
-    return NextResponse.json({ error: "Erro ao buscar galeria." }, { status: 500 });
+    return apiError(error);
   }
 }
 
@@ -22,7 +23,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const items = await request.json();
+    const items = collection(gallerySchema, await readJson(request));
     if (!Array.isArray(items)) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
@@ -30,7 +31,6 @@ export async function PUT(request: Request) {
     saveGalleryItems(items);
     return NextResponse.json({ success: true, gallery: items });
   } catch (error) {
-    console.error("Error updating gallery:", error);
-    return NextResponse.json({ error: "Erro ao salvar galeria." }, { status: 500 });
+    return apiError(error);
   }
 }

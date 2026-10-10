@@ -9,7 +9,8 @@ export function formatSingleProductWhatsAppMessage(
     customTheme?: string;
     customObservations?: string;
   },
-  originUrl?: string
+  originUrl?: string,
+  phone = STORE_INFO.whatsapp
 ): { whatsappUrl: string; plainTextMessage: string } {
   const lines: string[] = [
     `Olá, Criativo Artes! Gostaria de um orçamento para o seguinte produto:`,
@@ -47,19 +48,20 @@ export function formatSingleProductWhatsAppMessage(
 
   const plainTextMessage = lines.join("\n");
   const encoded = encodeURIComponent(plainTextMessage);
-  const whatsappUrl = `https://wa.me/${STORE_INFO.whatsapp}?text=${encoded}`;
+  const whatsappUrl = `https://wa.me/${phone}?text=${encoded}`;
 
   return { whatsappUrl, plainTextMessage };
 }
 
 export function formatCartWhatsAppMessage(
   items: QuoteItem[],
-  baseUrl?: string
+  baseUrl?: string,
+  phone = STORE_INFO.whatsapp
 ): { whatsappUrl: string; plainTextMessage: string } {
   if (items.length === 0) {
     const text = "Olá, Criativo Artes! Gostaria de tirar dúvidas sobre os produtos personalizados.";
     return {
-      whatsappUrl: `https://wa.me/${STORE_INFO.whatsapp}?text=${encodeURIComponent(text)}`,
+      whatsappUrl: `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
       plainTextMessage: text,
     };
   }
@@ -105,7 +107,7 @@ export function formatCartWhatsAppMessage(
 
   const plainTextMessage = lines.join("\n");
   const encoded = encodeURIComponent(plainTextMessage);
-  const whatsappUrl = `https://wa.me/${STORE_INFO.whatsapp}?text=${encoded}`;
+  const whatsappUrl = `https://wa.me/${phone}?text=${encoded}`;
 
   return { whatsappUrl, plainTextMessage };
 }

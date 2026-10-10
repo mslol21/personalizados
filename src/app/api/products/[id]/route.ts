@@ -1,3 +1,5 @@
+import { productSchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getProductById, updateProduct, deleteProduct } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -10,7 +12,7 @@ export async function GET(
     const { id } = await params;
     const product = getProductById(id);
 
-    if (!product) {
+    if (!product || (!product.isPublished && !isAdminRequest(request))) {
       return NextResponse.json(
         { error: "Produto não encontrado." },
         { status: 404 }
@@ -19,11 +21,7 @@ export async function GET(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error("Error getting product:", error);
-    return NextResponse.json(
-      { error: "Erro ao buscar produto." },
-      { status: 500 }
-    );
+    return apiError(error);
   }
 }
 
@@ -41,7 +39,7 @@ export async function PUT(
     }
 
     const { id } = await params;
-    const updates = await request.json();
+    const updates = productSchema.partial().parse(await readJson(request));
 
     const updated = updateProduct(id, updates);
     if (!updated) {
@@ -53,11 +51,7 @@ export async function PUT(
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("Error updating product:", error);
-    return NextResponse.json(
-      { error: "Erro ao atualizar produto." },
-      { status: 500 }
-    );
+    return apiError(error);
   }
 }
 
@@ -86,10 +80,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, message: "Produto excluído com sucesso." });
   } catch (error) {
-    console.error("Error deleting product:", error);
-    return NextResponse.json(
-      { error: "Erro ao excluir produto." },
-      { status: 500 }
-    );
+    return apiError(error);
   }
 }

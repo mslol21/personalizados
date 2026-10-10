@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import { Product, CategoryItem, OccasionItem } from "@/types";
 import { ProductCard } from "./ProductCard";
 import { Search, Filter, X, Sparkles, MessageCircle, ArrowUpDown } from "lucide-react";
-import { STORE_INFO } from "@/lib/constants";
+import { useStoreSettings } from "@/lib/settings-context";
 
 interface CatalogClientProps {
   initialProducts: Product[];
@@ -23,6 +23,7 @@ export function CatalogClient({
   initialOccasion = "todas",
   initialQuery = "",
 }: CatalogClientProps) {
+  const STORE_INFO = useStoreSettings();
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedOccasion, setSelectedOccasion] = useState(initialOccasion);

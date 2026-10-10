@@ -1,137 +1,58 @@
-# Criativo Artes Personalizados 🎨✨
+# Criativo Artes Personalizados
 
-> **Criativo Artes — Brindes e Personalizados**  
-> *"Seu presente, com a sua ideia e o nosso cuidado."*
+Catálogo de personalizados e orçamento por WhatsApp, desenvolvido em Next.js, React, TypeScript e Tailwind.
 
-Plataforma web completa e funcional desenvolvida para a **Criativo Artes Personalizados**, empresa especializada em presentes afetivos, lembrancinhas, canecas, copos térmicos, taças de gin, azulejos e brindes corporativos, além de soluções de comunicação visual comercial no Jardim Arpoador, São Paulo - SP.
+## Executar
 
----
+Requer Node.js 20+ e npm.
 
-## 🌟 1. Dados Confirmados da Empresa
-
-* **Nome Comercial:** Criativo Artes — Brindes e Personalizados
-* **Razão / Nome:** Criativo Artes Personalizados
-* **WhatsApp Oficial:** `(11) 98750-7750` | [https://wa.me/5511987507750](https://wa.me/5511987507750)
-* **Instagram:** [@criativoartes.personalizados](https://www.instagram.com/criativoartes.personalizados/)
-* **Endereço Físico:** Avenida General Asdrúbal da Cunha, 1278 — Jardim Arpoador, São Paulo — SP
-* **Link de Busca no Google Maps:** [Acessar Localização](https://www.google.com/maps/search/?api=1&query=Avenida+General+Asdr%C3%BAbal+da+Cunha%2C+1278+-+Jardim+Arpoador%2C+S%C3%A3o+Paulo+-+SP)
-
-> **Observação:** Não foram inventados preços fictícios, horários, CEP, CNPJ ou avaliações artificiais. Dados pendentes são gerenciáveis e editáveis diretamente no Painel Administrativo.
-
----
-
-## 🚀 2. Tecnologias Utilizadas
-
-* **Framework:** [Next.js](https://nextjs.org/) (App Router, Server Components & Client Components)
-* **Linguagem:** TypeScript (Strict Type Safety)
-* **Estilização:** Tailwind CSS com paleta nobre e acessível (base marfim `#FAF8F5`, grafite `#1A1D20`, detalhes em ouro `#D4AF37` / `#A6802C`)
-* **Ícones:** Lucide React
-* **Persistência de Dados:** Storage JSON atômico no servidor (`data/store.json`) com seeding automático de dados padrão
-* **Lista de Orçamento:** LocalStorage no cliente com sincronização em tempo real e drawer lateral
-* **Segurança:** Autenticação administrativa com token JWT assinado via cookies HTTP-only e proteção de endpoints de mutação
-* **SEO & Descoberta:** OpenGraph, Twitter Cards, Sitemap XML dinâmico, Robots.txt e Schema.org (`LocalBusiness` e `Product`)
-
----
-
-## 🛠️ 3. Como Instalar e Executar
-
-### Pré-requisitos
-* Node.js v18+ ou v20+ instalado
-* npm ou yarn
-
-### Passo a passo
-1. Clone ou acesse a pasta do projeto:
 ```bash
-cd personalizados
-```
-
-2. Instale as dependências:
-```bash
-npm install
-```
-
-3. Configure o arquivo de variáveis de ambiente:
-```bash
+npm ci
 cp .env.example .env.local
-```
-
-4. Execute o servidor de desenvolvimento:
-```bash
 npm run dev
 ```
 
-5. Acesse o site no seu navegador em: [http://localhost:3000](http://localhost:3000)
+Defina `ADMIN_PASSWORD` (mínimo 16 caracteres), `JWT_SECRET` (mínimo 32 caracteres aleatórios) e `APP_ORIGIN` (origem exata do site) no servidor. Não existe senha padrão. Sem configuração válida, o login responde 503 e as sessões são rejeitadas. Em produção, utilize HTTPS. Gere o segredo com `openssl rand -hex 32`; não o salve no GitHub.
 
----
+`NEXT_PUBLIC_SITE_URL` configura a base de metadados e sitemap. Configure o domínio real antes de publicar. Credenciais administrativas nunca devem usar o prefixo `NEXT_PUBLIC_`.
 
-## 🔑 4. Painel Administrativo e Gestão de Catálogo
+## Painel
 
-* **URL de Acesso:** `/admin/login` ou [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
-* **Senha Padrão Inicial:** `criativo2026` (configurável via `ADMIN_PASSWORD` no `.env.local`)
+Acesse `/admin/login`. Produtos permitem cadastro, edição, fotos, publicação, destaques e exclusão. Categorias, ocasiões, galeria e FAQs possuem APIs protegidas, mas a interface atual dessas abas é de consulta: ainda falta implementar seus formulários completos. Serviços permitem alterar o status; campanhas permitem ativar/desativar; configurações permitem editar contatos, horários e aviso.
 
-### Recursos do Painel:
-* **Produtos:** Adicionar novos itens, editar descrições e especificações, definir preço ou "Sob orçamento", enviar fotos (com validação de formato e limite de 5MB), marcar destaques e alternar entre publicado e oculto.
-* **Categorias & Ocasiões:** Gerenciar categorias ativas e ocasiões temáticas (aniversários, casamentos, pets, empresas).
-* **Comunicação Visual:** Gerenciar serviços identificados na fachada comercial (ACM, letras luminosas, banners, adesivos, toldos) com alternância entre *Rascunho Pendente*, *Confirmado & Publicado* e *Oculto*.
-* **Portfólio / Galeria:** Publicar e categorizar fotos de trabalhos reais.
-* **Perguntas Frequentes (FAQ):** Atualizar respostas sobre pedidos, arte e retirada.
-* **Campanhas & Avisos:** Ativar ou desativar banners sazonais para datas comemorativas.
-* **Configurações da Loja:** Atualizar WhatsApp, Instagram, endereço e horários de funcionamento.
+Novos produtos na API são rascunhos por padrão. O formulário permite escolher explicitamente a publicação. Upload aceita PNG, JPEG e WebP, até 5 MB e 25 milhões de pixels. O servidor decodifica e converte em WebP de até 2400 pixels, remove metadados e gera o nome. SVG e imagens animadas não são aceitos para upload. SVGs estáticos já incluídos no projeto continuam funcionando.
 
----
+## Persistência e hospedagem
 
-## 📁 5. Estrutura de Rotas e Diretórios
+O catálogo usa `data/store.json`, com gravação atômica, e imagens em `public/uploads`. Não existe integração ativa com Supabase. O arquivo de cliente sem uso foi removido; isso não migra dados nem altera o banco remoto.
 
-```
-personalizados/
-├── data/
-│   └── store.json               # Banco de dados persistente em arquivo com escrita atômica
-├── public/
-│   ├── images/
-│   │   ├── brand/               # Logotipo e monograma CA em vetor SVG
-│   │   ├── products/            # Mockups e fotos dos produtos em alta definição
-│   │   └── gallery/             # Imagens de projetos reais para o portfólio
-│   └── uploads/                 # Diretório seguro para fotos enviadas via painel
-├── src/
-│   ├── app/
-│   │   ├── api/                 # Endpoints REST protegidos (auth, products, upload, etc.)
-│   │   ├── catalogo/            # Catálogo e página individual [slug]
-│   │   ├── empresas/            # Brindes corporativos e comunicação visual
-│   │   ├── trabalhos/           # Galeria de portfólio filtrável
-│   │   ├── contato/             # Endereço, mapa, contatos e FAQ
-│   │   ├── orcamento/           # Revisão e envio da lista de orçamento no WhatsApp
-│   │   ├── admin/               # Login e Painel Administrativo completo
-│   │   ├── layout.tsx           # Layout raiz com fontes, schema.org e providers
-│   │   ├── page.tsx             # Página inicial com todas as seções
-│   │   ├── sitemap.ts           # Geração dinâmica do sitemap XML
-│   │   └── robots.ts            # Regras para motores de busca
-│   ├── components/              # Componentes acessíveis de UI (Hero, Header, Footer, etc.)
-│   ├── lib/                     # Constantes, autenticação, storage, cart e formatador WhatsApp
-│   └── types/                   # Interfaces TypeScript completas
-├── scripts/
-│   ├── generate-assets.js       # Gerador de vetores e mockups SVG
-│   └── test-suite.js            # Bateria automatizada de testes E2E
-├── CODEX_HANDOFF.md             # Documento de continuidade técnica para o Codex
-└── package.json
+Esta implementação exige **um único processo Node.js com disco persistente**, incluindo o diretório de uploads. `CATALOG_DATA_DIR` pode apontar para um volume persistente para os dados. Faça backups do JSON e das imagens. Não use várias réplicas/processos para escrever no mesmo arquivo: não existe coordenação distribuída.
+
+Na Vercel, as mutações e uploads são bloqueados com 503, pois disco efêmero não mantém o catálogo. Para habilitar edição nessa hospedagem, é necessário implementar banco e armazenamento de objetos com autorização, migração e testes. Configurar apenas uma URL do Supabase não resolve essa integração.
+
+Arquivo de dados inválido gera erro: não é substituído silenciosamente por valores padrão. Imagens e itens de demonstração existentes precisam ser substituídos ou confirmados pela proprietária antes de apresentar o portfólio como trabalhos reais.
+
+## Segurança
+
+- Autenticação administrativa validada no servidor; JWT HS256 com emissor, audiência, identificação e validade de oito horas.
+- Cookie HttpOnly, SameSite Strict e Secure em produção.
+- Rotação de senha ou segredo invalida as sessões anteriores. Logout remove o cookie do navegador; um token previamente copiado permanece válido até expirar ou ocorrer rotação.
+- Alterações exigem sessão e Origin exato. Clientes externos autenticados também precisam enviar esse cabeçalho.
+- Login limitado a 30 tentativas a cada cinco minutos por processo, sem confiar em cabeçalhos de IP fornecidos pelo cliente. O limite compartilhado pode temporariamente bloquear outros administradores; múltiplas instâncias exigem limitação compartilhada no proxy.
+- Validação de campos, limites de corpo, URLs locais de imagens e links sem esquemas executáveis.
+- Rascunhos protegidos, inclusive na busca por ID; JSON-LD escapado contra encerramento do script.
+- APIs e painel sem cache compartilhado, cabeçalhos contra enquadramento e interpretação incorreta de MIME.
+- A política CSP inclui object-src, base-uri, frame-ancestors e form-action. Não é uma CSP completa com nonces.
+
+## Verificar
+
+```bash
+npm run lint
+npm run build
+npm test
+npm audit
 ```
 
----
+`npm run lint` executa a checagem de tipos; não é uma análise ESLint. A suíte de regressão inicia um servidor de produção próprio na porta 3219, usa credenciais geradas e uma cópia temporária do catálogo e limpa os dados após o teste. Requer build prévio. Nunca a execute apontando para a loja de produção.
 
-## ✅ 6. Verificações Realizadas
-
-* **Responsividade:** Verificado em celular (360px, 390px, 412px), tablets e desktops.
-* **Contraste & Acessibilidade:** Texto em grafite escuro sobre fundo claro (contraste superior a 4.5:1), anéis de foco visíveis (`focus-visible`) e suporte a `prefers-reduced-motion`.
-* **Fluxo de Orçamento:**
-  - Adição de produtos individuais com nome/frase, tema e observações personalizadas.
-  - Gaveta (*Drawer*) e página de orçamento com controle de quantidade.
-  - Geração de mensagem formatada no WhatsApp com encoding seguro e botão alternativo de cópia de texto.
-* **Persistência Real:** Criação, edição e exclusão de produtos persistidas em `data/store.json` e verificadas via suíte de testes.
-* **Segurança:** Visitantes não autenticados são bloqueados com `401 Unauthorized` em todas as rotas de mutação da API.
-
----
-
-## 📋 7. Pendências Documentadas para a Proprietária
-
-1. **Horário de Funcionamento:** Deixado em aberto com orientação para consulta no WhatsApp até cadastro no painel.
-2. **Serviços da Fachada (ACM, Toldos, etc.):** Iniciam com status de *Rascunho Pendente* para que a proprietária confirme as modalidades exatas que atende.
-3. **Fotografias Adicionais:** A proprietária pode substituir ou subir novas fotos reais pelo painel administrativo em `/admin`.
+Veja `SECURITY_REVIEW.md` para as vulnerabilidades corrigidas e pendências externas.

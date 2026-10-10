@@ -1,4 +1,7 @@
 import fs from "fs";
+import { randomUUID } from "node:crypto";
+import { ApiError } from "./api";
+import { productSchema, settingsSchema, categorySchema, occasionSchema, serviceSchema, gallerySchema, faqSchema, campaignSchema, collection } from "./validation";
 import path from "path";
 import {
   Product,
@@ -32,7 +35,7 @@ export interface DataStore {
   settings: StoreSettings;
 }
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = process.env.CATALOG_DATA_DIR || path.join(process.cwd(), "data");
 const STORE_PATH = path.join(DATA_DIR, "store.json");
 
 function ensureStoreExists(): DataStore {
@@ -71,17 +74,8 @@ function ensureStoreExists(): DataStore {
       settings: parsed.settings || STORE_INFO,
     };
   } catch (error) {
-    console.error("Error reading data store, falling back to defaults:", error);
-    return {
-      products: DEFAULT_PRODUCTS,
-      categories: DEFAULT_CATEGORIES,
-      occasions: DEFAULT_OCCASIONS,
-      services: DEFAULT_VISUAL_COMMUNICATION,
-      faqs: DEFAULT_FAQS,
-      campaigns: DEFAULT_CAMPAIGNS,
-      gallery: DEFAULT_GALLERY,
-      settings: STORE_INFO,
-    };
+    console.error("Catalog could not be read; refusing to overwrite it", error);
+    throw new Error("Catalog unavailable. Restore the data file from backup.");
   }
 }
 
@@ -89,12 +83,17 @@ export function getStore(): DataStore {
   return ensureStoreExists();
 }
 
+export function assertWritableStore(): void {
+  if (process.env.VERCEL) throw new ApiError(503, "O catálogo precisa de banco e armazenamento persistentes antes de permitir alterações nesta hospedagem.");
+}
+
 export function saveStore(data: DataStore): void {
+  assertWritableStore();
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
-    const tempPath = `${STORE_PATH}.tmp-${Date.now()}`;
+    const tempPath = `${STORE_PATH}.tmp-${randomUUID()}`;
     fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), "utf-8");
     fs.renameSync(tempPath, STORE_PATH);
   } catch (error) {
@@ -126,10 +125,12 @@ export function getProductById(id: string): Product | undefined {
 
 export function createProduct(productData: Omit<Product, "id" | "createdAt" | "updatedAt">): Product {
   const store = getStore();
+  productData = productSchema.parse(productData);
+  if (store.products.some(p => p.slug === productData.slug)) throw new ApiError(409, "Já existe um produto com este endereço.");
   const now = new Date().toISOString();
   const newProduct: Product = {
     ...productData,
-    id: `prod-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+    id: `prod-${randomUUID()}`,
     createdAt: now,
     updatedAt: now,
   };
@@ -146,11 +147,13 @@ export function updateProduct(id: string, updates: Partial<Product>): Product | 
   const existing = store.products[index];
   const updated: Product = {
     ...existing,
-    ...updates,
+    ...productSchema.parse({ ...existing, ...updates }),
+    createdAt: existing.createdAt,
     id: existing.id, // Immutable ID
     updatedAt: new Date().toISOString(),
   };
 
+  if (store.products.some(p => p.id !== id && p.slug === updated.slug)) throw new ApiError(409, "Já existe um produto com este endereço.");
   store.products[index] = updated;
   saveStore(store);
   return updated;
@@ -178,7 +181,7 @@ export function getCategories(includeUnpublished = false): CategoryItem[] {
 
 export function saveCategories(categories: CategoryItem[]): void {
   const store = getStore();
-  store.categories = categories;
+  store.categories = collection(categorySchema, categories);
   saveStore(store);
 }
 
@@ -195,7 +198,7 @@ export function getOccasions(includeUnpublished = false): OccasionItem[] {
 
 export function saveOccasions(occasions: OccasionItem[]): void {
   const store = getStore();
-  store.occasions = occasions;
+  store.occasions = collection(occasionSchema, occasions);
   saveStore(store);
 }
 
@@ -213,7 +216,7 @@ export function getServices(includeDrafts = false): VisualCommunicationService[]
 
 export function saveServices(services: VisualCommunicationService[]): void {
   const store = getStore();
-  store.services = services;
+  store.services = collection(serviceSchema, services);
   saveStore(store);
 }
 
@@ -230,7 +233,7 @@ export function getGalleryItems(includeUnpublished = false): GalleryItem[] {
 
 export function saveGalleryItems(gallery: GalleryItem[]): void {
   const store = getStore();
-  store.gallery = gallery;
+  store.gallery = collection(gallerySchema, gallery);
   saveStore(store);
 }
 
@@ -247,7 +250,7 @@ export function getFaqs(includeUnpublished = false): FAQItem[] {
 
 export function saveFaqs(faqs: FAQItem[]): void {
   const store = getStore();
-  store.faqs = faqs;
+  store.faqs = collection(faqSchema, faqs);
   saveStore(store);
 }
 
@@ -261,7 +264,7 @@ export function getCampaigns(includeInactive = false): CampaignBanner[] {
 
 export function saveCampaigns(campaigns: CampaignBanner[]): void {
   const store = getStore();
-  store.campaigns = campaigns;
+  store.campaigns = collection(campaignSchema, campaigns);
   saveStore(store);
 }
 
@@ -274,10 +277,11 @@ export function getSettings(): StoreSettings {
 
 export function updateSettings(updates: Partial<StoreSettings>): StoreSettings {
   const store = getStore();
-  store.settings = {
-    ...store.settings,
-    ...updates,
-  };
+  store.settings = settingsSchema.parse({ ...store.settings, ...updates,
+    address: { ...store.settings.address, ...updates.address } });
+  store.settings.whatsappLink = `https://wa.me/${store.settings.whatsapp}`;
+  store.settings.instagramHandle = store.settings.instagramHandle.replace(/^@/, "");
+  store.settings.instagram = `https://www.instagram.com/${encodeURIComponent(store.settings.instagramHandle)}/`;
   saveStore(store);
   return store.settings;
 }

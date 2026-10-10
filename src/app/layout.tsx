@@ -3,7 +3,10 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { QuoteDrawer } from "@/components/QuoteDrawer";
-import { STORE_INFO } from "@/lib/constants";
+import { getSettings } from "@/lib/storage";
+import { SettingsProvider } from "@/lib/settings-context";
+
+export const dynamic = "force-dynamic";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,8 +22,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://criativoartespersonalizados.com.br"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Criativo Artes — Brindes e Personalizados | Canecas, Brindes e Presentes em SP",
     template: "%s | Criativo Artes Personalizados",
@@ -42,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://criativoartespersonalizados.com.br",
+    url: siteUrl,
     title: "Criativo Artes — Brindes e Personalizados",
     description:
       "Seu presente, com a sua ideia e o nosso cuidado. Peça seu orçamento personalizado pelo WhatsApp.",
@@ -73,15 +78,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const STORE_INFO = getSettings();
   // Schema.org LocalBusiness Structured Data
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: STORE_INFO.companyName,
     alternateName: STORE_INFO.commercialName,
-    image: "https://criativoartespersonalizados.com.br/images/brand/logo.svg",
-    telephone: "+5511987507750",
-    url: "https://criativoartespersonalizados.com.br",
+    image: `${siteUrl}/images/brand/logo.svg`,
+    telephone: `+${STORE_INFO.whatsapp}`,
+    url: siteUrl,
     address: {
       "@type": "PostalAddress",
       streetAddress: `${STORE_INFO.address.street}, ${STORE_INFO.address.number}`,
@@ -94,7 +100,6 @@ export default function RootLayout({
       STORE_INFO.instagram,
       STORE_INFO.whatsappLink,
     ],
-    priceRange: "$$",
   };
 
   return (
@@ -102,14 +107,14 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body className="min-h-screen flex flex-col font-sans bg-brand-bg text-brand-graphite-900 antialiased selection:bg-brand-gold-200 selection:text-brand-graphite-900">
-        <CartProvider>
+        <SettingsProvider settings={STORE_INFO}><CartProvider>
           {children}
           <QuoteDrawer />
-        </CartProvider>
+        </CartProvider></SettingsProvider>
       </body>
     </html>
   );

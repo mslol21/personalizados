@@ -191,9 +191,10 @@ export function AdminDashboardClient({
 
     const payload = {
       ...productForm,
+      slug: productForm.slug || productForm.name?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
       categoryName: selectedCat ? selectedCat.name : productForm.categoryName,
       details: detailsArray,
-      price: productForm.price ? Number(productForm.price) : undefined,
+      price: productForm.price === undefined || String(productForm.price) === "" ? null : Number(productForm.price),
     };
 
     try {
@@ -797,13 +798,19 @@ export function AdminDashboardClient({
                         const updated = campaigns.map((c) =>
                           c.id === camp.id ? { ...c, isActive: !c.isActive } : c
                         );
-                        await fetch("/api/campaigns", {
-                          method: "PUT",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify(updated),
-                        });
-                        setCampaigns(updated);
-                        showToast(camp.isActive ? "Campanha desativada" : "Campanha ativada");
+                        try {
+                          const res = await fetch("/api/campaigns", {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(updated),
+                          });
+                          const result = await res.json();
+                          if (!res.ok) throw new Error(result.error || "Erro ao salvar campanha");
+                          setCampaigns(updated);
+                          showToast(camp.isActive ? "Campanha desativada" : "Campanha ativada");
+                        } catch (error) {
+                          showToast(error instanceof Error ? error.message : "Falha de conexão", "error");
+                        }
                       }}
                       className={`px-3 py-1 rounded-full text-xs font-semibold border ${
                         camp.isActive
@@ -1052,7 +1059,7 @@ export function AdminDashboardClient({
                       />
                     </label>
                     <span className="text-[10px] text-brand-graphite-500 block mt-1">
-                      Formatos aceitos: JPG, PNG, WEBP, SVG (máx 5MB)
+                      Formatos aceitos: JPG, PNG e WEBP (máx 5MB)
                     </span>
                   </div>
                 </div>

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { STORE_INFO } from "@/lib/constants";
+import { useStoreSettings } from "@/lib/settings-context";
 import {
   MapPin,
   MessageCircle,
@@ -15,6 +15,7 @@ import {
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
 
 export function Footer() {
+  const STORE_INFO = useStoreSettings();
   const currentYear = new Date().getFullYear();
 
   return (

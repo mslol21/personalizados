@@ -1,3 +1,5 @@
+import { productSchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getProducts, createProduct } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -39,11 +41,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(filtered);
   } catch (error) {
-    console.error("Error fetching products:", error);
-    return NextResponse.json(
-      { error: "Erro ao buscar produtos." },
-      { status: 500 }
-    );
+    return apiError(error);
   }
 }
 
@@ -57,7 +55,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = await request.json();
+    const raw = await readJson(request);
+    const normalized = raw && typeof raw === "object" && !Array.isArray(raw) ? { ...raw, ...("slug" in raw && raw.slug === "" ? { slug: undefined } : {}) } : raw;
+    const input = productSchema.partial().extend({ name: productSchema.shape.name, category: productSchema.shape.category }).parse(normalized);
+    const body = input;
 
     if (!body.name || !body.category) {
       return NextResponse.json(
@@ -84,9 +85,9 @@ export async function POST(request: Request) {
       occasions: body.occasions || ["geral"],
       description: body.description || "",
       details: body.details || [],
-      price: body.price ? Number(body.price) : undefined,
+      price: body.price,
       isFeatured: Boolean(body.isFeatured),
-      isPublished: body.isPublished !== undefined ? Boolean(body.isPublished) : true,
+      isPublished: body.isPublished ?? false,
       images: body.images && body.images.length > 0 ? body.images : ["/images/products/caneca-personalizada-1.svg"],
       minQuantity: body.minQuantity ? Number(body.minQuantity) : 1,
       customizationOptions: body.customizationOptions || {
@@ -98,10 +99,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
-    console.error("Error creating product:", error);
-    return NextResponse.json(
-      { error: "Erro interno ao cadastrar produto." },
-      { status: 500 }
-    );
+    return apiError(error);
   }
 }

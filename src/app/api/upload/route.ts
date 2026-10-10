@@ -1,76 +1,41 @@
 import { NextResponse } from "next/server";
 import { isAdminRequest } from "@/lib/auth";
-import fs from "fs";
-import path from "path";
+import { ApiError, apiError, readBytes } from "@/lib/api";
+import { assertWritableStore } from "@/lib/storage";
+import { randomUUID } from "node:crypto";
+import fs from "node:fs/promises";
+import path from "node:path";
+import sharp from "sharp";
 
-const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
-const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
-
+const MAX_SIZE = 5 * 1024 * 1024;
 export async function POST(request: Request) {
   try {
-    if (!isAdminRequest(request)) {
-      return NextResponse.json(
-        { error: "Não autorizado. Apenas administradores podem enviar imagens." },
-        { status: 401 }
-      );
-    }
-
-    const formData = await request.formData();
-    const file = formData.get("file") as File | null;
-
-    if (!file) {
-      return NextResponse.json(
-        { error: "Nenhum arquivo enviado." },
-        { status: 400 }
-      );
-    }
-
-    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-      return NextResponse.json(
-        { error: "Formato de arquivo inválido. Permitido apenas PNG, JPG, WEBP e SVG." },
-        { status: 400 }
-      );
-    }
-
-    if (file.size > MAX_SIZE_BYTES) {
-      return NextResponse.json(
-        { error: "Arquivo muito grande. O limite máximo é de 5MB." },
-        { status: 400 }
-      );
-    }
-
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
+    if (!isAdminRequest(request)) return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+    assertWritableStore();
+    const contentType = request.headers.get("content-type") || "";
+    if (!contentType.startsWith("multipart/form-data;")) throw new ApiError(415, "Use multipart/form-data.");
+    const bytes = await readBytes(request, MAX_SIZE + 64 * 1024);
+    const form = await new Response(Buffer.from(bytes), { headers: { "Content-Type": contentType } }).formData();
+    const file = form.get("file");
+    if (!(file instanceof File) || !file.size) throw new ApiError(400, "Envie uma imagem válida.");
+    if (file.size > MAX_SIZE) throw new ApiError(413, "Limite de 5 MB por imagem.");
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) throw new ApiError(400, "Use PNG, JPEG ou WebP. SVG não é permitido.");
+    const buffer = Buffer.from(await file.arrayBuffer());
+    let sanitized: Buffer;
+    try {
+      const image = sharp(buffer, { limitInputPixels: 25000000 });
+      const meta = await image.metadata();
+      const mime = { jpeg: "image/jpeg", png: "image/png", webp: "image/webp" };
+      if (!(meta.format! in mime) || mime[meta.format as keyof typeof mime] !== file.type || (meta.pages || 1) > 1) {
+        throw new Error("Invalid raster format");
+      }
+      sanitized = await image.rotate().resize({ width: 2400, height: 2400, fit: "inside", withoutEnlargement: true })
+        .webp({ quality: 85 }).toBuffer();
+    } catch { throw new ApiError(400, "Imagem inválida, animada ou com dimensões excessivas."); }
     const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const extension = path.extname(file.name) || ".png";
-    const cleanName = path
-      .basename(file.name, extension)
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, "-")
-      .substring(0, 30);
-
-    const fileName = `${Date.now()}-${cleanName}${extension}`;
-    const filePath = path.join(uploadsDir, fileName);
-
-    fs.writeFileSync(filePath, buffer);
-
-    const publicUrl = `/uploads/${fileName}`;
-
-    return NextResponse.json({
-      success: true,
-      url: publicUrl,
-      fileName,
-    });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json(
-      { error: "Erro interno no servidor ao processar upload." },
-      { status: 500 }
-    );
-  }
+    await fs.mkdir(uploadsDir, { recursive: true });
+    const fileName = `${randomUUID()}.webp`;
+    await fs.writeFile(path.join(uploadsDir, fileName), sanitized, { flag: "wx" });
+    return NextResponse.json({ success: true, url: `/uploads/${fileName}`, fileName });
+  } catch (error) { return apiError(error); }
 }

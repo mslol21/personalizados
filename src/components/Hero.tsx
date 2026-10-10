@@ -12,9 +12,10 @@ import {
   Building2,
   CheckCircle2,
 } from "lucide-react";
-import { STORE_INFO } from "@/lib/constants";
+import { useStoreSettings } from "@/lib/settings-context";
 
 export function Hero() {
+  const STORE_INFO = useStoreSettings();
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-brand-gold-50/40 via-brand-bg to-brand-bg pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-brand-border/40">
       {/* Subtle Background Elements */}

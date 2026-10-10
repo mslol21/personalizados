@@ -1,7 +1,8 @@
+export const dynamic = "force-dynamic";
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://criativoartespersonalizados.com.br";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   return {
     rules: [

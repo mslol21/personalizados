@@ -14,9 +14,10 @@ import {
   Phone,
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
-import { STORE_INFO } from "@/lib/constants";
+import { useStoreSettings } from "@/lib/settings-context";
 
 export function Header({ notice }: { notice?: string }) {
+  const STORE_INFO = useStoreSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const { totalQuantity, setIsDrawerOpen } = useCart();

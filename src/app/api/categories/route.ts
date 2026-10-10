@@ -1,3 +1,5 @@
+import { collection, categorySchema } from "@/lib/validation";
+import { readJson, apiError } from "@/lib/api";
 import { NextResponse } from "next/server";
 import { getCategories, saveCategories } from "@/lib/storage";
 import { isAdminRequest } from "@/lib/auth";
@@ -11,8 +13,7 @@ export async function GET(request: Request) {
     const categories = getCategories(isAdmin && includeAll);
     return NextResponse.json(categories);
   } catch (error) {
-    console.error("Error fetching categories:", error);
-    return NextResponse.json({ error: "Erro ao buscar categorias." }, { status: 500 });
+    return apiError(error);
   }
 }
 
@@ -22,7 +23,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const categories = await request.json();
+    const categories = collection(categorySchema, await readJson(request));
     if (!Array.isArray(categories)) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
@@ -30,7 +31,6 @@ export async function PUT(request: Request) {
     saveCategories(categories);
     return NextResponse.json({ success: true, categories });
   } catch (error) {
-    console.error("Error updating categories:", error);
-    return NextResponse.json({ error: "Erro ao salvar categorias." }, { status: 500 });
+    return apiError(error);
   }
 }
