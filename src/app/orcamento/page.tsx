@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 export default async function OrcamentoPage() {
-  const settings = getSettings();
+  const settings = await getSettings();
 
   return (
     <>

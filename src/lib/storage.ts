@@ -1,4 +1,6 @@
 import fs from "fs";
+import { cache } from "react";
+import { supabaseRequest, usesSupabase } from "./supabase-server";
 import { randomUUID } from "node:crypto";
 import { ApiError } from "./api";
 import { productSchema, settingsSchema, categorySchema, occasionSchema, serviceSchema, gallerySchema, faqSchema, campaignSchema, collection } from "./validation";
@@ -79,99 +81,140 @@ function ensureStoreExists(): DataStore {
   }
 }
 
-export function getStore(): DataStore {
-  return ensureStoreExists();
+function parseStore(value: unknown): DataStore {
+  if (!value || typeof value !== "object") throw new ApiError(503, "Catálogo inválido no banco.");
+  const data = value as DataStore;
+  for (const key of ["products", "categories", "occasions", "services", "faqs", "campaigns", "gallery"] as const) {
+    if (!Array.isArray(data[key])) throw new ApiError(503, "Catálogo incompleto no banco.");
+  }
+  if (!data.settings || typeof data.settings !== "object") throw new ApiError(503, "Configurações ausentes no banco.");
+  return data;
 }
+
+interface CatalogRow { id: string; revision: number; data: DataStore }
+async function readCatalog(): Promise<CatalogRow> {
+  const response = await supabaseRequest("/rest/v1/catalog_store?id=eq.main&select=id,revision,data");
+  const rows = await response.json() as CatalogRow[];
+  if (!Array.isArray(rows) || rows.length !== 1 || !Number.isSafeInteger(rows[0].revision)) {
+    throw new ApiError(503, "Catálogo não inicializado no Supabase. Execute a preparação do banco.");
+  }
+  return { ...rows[0], data: parseStore(rows[0].data) };
+}
+
+// React deduplicates reads within one server render, never across requests.
+const readRenderStore = cache(async (): Promise<DataStore> => usesSupabase() ? (await readCatalog()).data : ensureStoreExists());
+export async function getStore(): Promise<DataStore> { return readRenderStore(); }
 
 export function assertWritableStore(): void {
-  if (process.env.VERCEL) throw new ApiError(503, "O catálogo precisa de banco e armazenamento persistentes antes de permitir alterações nesta hospedagem.");
+  if (process.env.VERCEL && !usesSupabase()) throw new ApiError(503, "Use Supabase para manter o catálogo nesta hospedagem.");
 }
 
-export function saveStore(data: DataStore): void {
+function saveFile(data: DataStore): void {
   assertWritableStore();
+  const tempPath = `${STORE_PATH}.tmp-${randomUUID()}`;
   try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    const tempPath = `${STORE_PATH}.tmp-${randomUUID()}`;
+    fs.mkdirSync(DATA_DIR, { recursive: true });
     fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), "utf-8");
     fs.renameSync(tempPath, STORE_PATH);
-  } catch (error) {
-    console.error("Error saving data store:", error);
-    throw new Error("Failed to persist data store");
+  } catch {
+    if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
+    throw new ApiError(503, "Não foi possível salvar o catálogo.");
   }
+}
+
+async function mutateStore<T>(change: (store: DataStore) => T): Promise<T> {
+  assertWritableStore();
+  if (!usesSupabase()) {
+    // Synchronous read/change/write keeps file operations serialized in one process.
+    const store = ensureStoreExists();
+    const result = change(store);
+    saveFile(store);
+    return result;
+  }
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const row = await readCatalog();
+    const result = change(row.data);
+    const response = await supabaseRequest(`/rest/v1/catalog_store?id=eq.main&revision=eq.${row.revision}`, {
+      method: "PATCH", headers: { Prefer: "return=representation" },
+      body: JSON.stringify({ data: row.data, revision: row.revision + 1, updated_at: new Date().toISOString() }),
+    });
+    const updated = await response.json();
+    if (Array.isArray(updated) && updated.length === 1) return result;
+    // A competing write won. Reread and reapply only this mutation.
+  }
+  throw new ApiError(409, "O catálogo foi alterado ao mesmo tempo. Tente salvar novamente.");
 }
 
 // ======================== PRODUCT OPERATIONS ========================
 
-export function getProducts(includeUnpublished = false): Product[] {
-  const store = getStore();
+export async function getProducts(includeUnpublished = false): Promise<Product[]> {
+  const store = await getStore();
   if (includeUnpublished) return store.products;
   return store.products.filter((p) => p.isPublished);
 }
 
-export function getProductBySlug(slug: string, includeUnpublished = false): Product | undefined {
-  const store = getStore();
+export async function getProductBySlug(slug: string, includeUnpublished = false): Promise<Product | undefined> {
+  const store = await getStore();
   const product = store.products.find((p) => p.slug === slug);
   if (!product) return undefined;
   if (!includeUnpublished && !product.isPublished) return undefined;
   return product;
 }
 
-export function getProductById(id: string): Product | undefined {
-  const store = getStore();
+export async function getProductById(id: string): Promise<Product | undefined> {
+  const store = await getStore();
   return store.products.find((p) => p.id === id);
 }
 
-export function createProduct(productData: Omit<Product, "id" | "createdAt" | "updatedAt">): Product {
-  const store = getStore();
-  productData = productSchema.parse(productData);
-  if (store.products.some(p => p.slug === productData.slug)) throw new ApiError(409, "Já existe um produto com este endereço.");
-  const now = new Date().toISOString();
-  const newProduct: Product = {
-    ...productData,
-    id: `prod-${randomUUID()}`,
-    createdAt: now,
-    updatedAt: now,
-  };
-  store.products.unshift(newProduct);
-  saveStore(store);
-  return newProduct;
+export async function createProduct(productData: Omit<Product, "id" | "createdAt" | "updatedAt">): Promise<Product> {
+  return mutateStore(store => {
+    productData = productSchema.parse(productData);
+    if (store.products.some(p => p.slug === productData.slug)) throw new ApiError(409, "Já existe um produto com este endereço.");
+    const now = new Date().toISOString();
+    const newProduct: Product = {
+      ...productData,
+      id: `prod-${randomUUID()}`,
+      createdAt: now,
+      updatedAt: now,
+    };
+    store.products.unshift(newProduct);
+    return newProduct;
+  });
 }
 
-export function updateProduct(id: string, updates: Partial<Product>): Product | null {
-  const store = getStore();
-  const index = store.products.findIndex((p) => p.id === id);
-  if (index === -1) return null;
+export async function updateProduct(id: string, updates: Partial<Product>): Promise<Product | null> {
+  return mutateStore(store => {
+    const index = store.products.findIndex((p) => p.id === id);
+    if (index === -1) return null;
 
-  const existing = store.products[index];
-  const updated: Product = {
-    ...existing,
-    ...productSchema.parse({ ...existing, ...updates }),
-    createdAt: existing.createdAt,
-    id: existing.id, // Immutable ID
-    updatedAt: new Date().toISOString(),
-  };
+    const existing = store.products[index];
+    const updated: Product = {
+      ...existing,
+      ...productSchema.parse({ ...existing, ...updates }),
+      createdAt: existing.createdAt,
+      id: existing.id, // Immutable ID
+      updatedAt: new Date().toISOString(),
+    };
 
-  if (store.products.some(p => p.id !== id && p.slug === updated.slug)) throw new ApiError(409, "Já existe um produto com este endereço.");
-  store.products[index] = updated;
-  saveStore(store);
-  return updated;
+    if (store.products.some(p => p.id !== id && p.slug === updated.slug)) throw new ApiError(409, "Já existe um produto com este endereço.");
+    store.products[index] = updated;
+    return updated;
+  });
 }
 
-export function deleteProduct(id: string): boolean {
-  const store = getStore();
-  const initialLength = store.products.length;
-  store.products = store.products.filter((p) => p.id !== id);
-  if (store.products.length === initialLength) return false;
-  saveStore(store);
-  return true;
+export async function deleteProduct(id: string): Promise<boolean> {
+  return mutateStore(store => {
+    const initialLength = store.products.length;
+    store.products = store.products.filter((p) => p.id !== id);
+    if (store.products.length === initialLength) return false;
+    return true;
+  });
 }
 
 // ======================== CATEGORIES ========================
 
-export function getCategories(includeUnpublished = false): CategoryItem[] {
-  const store = getStore();
+export async function getCategories(includeUnpublished = false): Promise<CategoryItem[]> {
+  const store = await getStore();
   let cats = store.categories.sort((a, b) => a.order - b.order);
   if (!includeUnpublished) {
     cats = cats.filter((c) => c.isPublished);
@@ -179,16 +222,16 @@ export function getCategories(includeUnpublished = false): CategoryItem[] {
   return cats;
 }
 
-export function saveCategories(categories: CategoryItem[]): void {
-  const store = getStore();
-  store.categories = collection(categorySchema, categories);
-  saveStore(store);
+export async function saveCategories(categories: CategoryItem[]): Promise<void> {
+  return mutateStore(store => {
+    store.categories = collection(categorySchema, categories);
+  });
 }
 
 // ======================== OCCASIONS ========================
 
-export function getOccasions(includeUnpublished = false): OccasionItem[] {
-  const store = getStore();
+export async function getOccasions(includeUnpublished = false): Promise<OccasionItem[]> {
+  const store = await getStore();
   let occs = store.occasions.sort((a, b) => a.order - b.order);
   if (!includeUnpublished) {
     occs = occs.filter((o) => o.isPublished);
@@ -196,16 +239,16 @@ export function getOccasions(includeUnpublished = false): OccasionItem[] {
   return occs;
 }
 
-export function saveOccasions(occasions: OccasionItem[]): void {
-  const store = getStore();
-  store.occasions = collection(occasionSchema, occasions);
-  saveStore(store);
+export async function saveOccasions(occasions: OccasionItem[]): Promise<void> {
+  return mutateStore(store => {
+    store.occasions = collection(occasionSchema, occasions);
+  });
 }
 
 // ======================== VISUAL COMMUNICATION SERVICES ========================
 
-export function getServices(includeDrafts = false): VisualCommunicationService[] {
-  const store = getStore();
+export async function getServices(includeDrafts = false): Promise<VisualCommunicationService[]> {
+  const store = await getStore();
   let services = store.services.sort((a, b) => a.order - b.order);
   if (!includeDrafts) {
     // Only published items for public, drafts require confirmation
@@ -214,16 +257,16 @@ export function getServices(includeDrafts = false): VisualCommunicationService[]
   return services;
 }
 
-export function saveServices(services: VisualCommunicationService[]): void {
-  const store = getStore();
-  store.services = collection(serviceSchema, services);
-  saveStore(store);
+export async function saveServices(services: VisualCommunicationService[]): Promise<void> {
+  return mutateStore(store => {
+    store.services = collection(serviceSchema, services);
+  });
 }
 
 // ======================== GALLERY ========================
 
-export function getGalleryItems(includeUnpublished = false): GalleryItem[] {
-  const store = getStore();
+export async function getGalleryItems(includeUnpublished = false): Promise<GalleryItem[]> {
+  const store = await getStore();
   let items = store.gallery;
   if (!includeUnpublished) {
     items = items.filter((g) => g.isPublished);
@@ -231,16 +274,16 @@ export function getGalleryItems(includeUnpublished = false): GalleryItem[] {
   return items;
 }
 
-export function saveGalleryItems(gallery: GalleryItem[]): void {
-  const store = getStore();
-  store.gallery = collection(gallerySchema, gallery);
-  saveStore(store);
+export async function saveGalleryItems(gallery: GalleryItem[]): Promise<void> {
+  return mutateStore(store => {
+    store.gallery = collection(gallerySchema, gallery);
+  });
 }
 
 // ======================== FAQS ========================
 
-export function getFaqs(includeUnpublished = false): FAQItem[] {
-  const store = getStore();
+export async function getFaqs(includeUnpublished = false): Promise<FAQItem[]> {
+  const store = await getStore();
   let faqs = store.faqs.sort((a, b) => a.order - b.order);
   if (!includeUnpublished) {
     faqs = faqs.filter((f) => f.isPublished);
@@ -248,40 +291,40 @@ export function getFaqs(includeUnpublished = false): FAQItem[] {
   return faqs;
 }
 
-export function saveFaqs(faqs: FAQItem[]): void {
-  const store = getStore();
-  store.faqs = collection(faqSchema, faqs);
-  saveStore(store);
+export async function saveFaqs(faqs: FAQItem[]): Promise<void> {
+  return mutateStore(store => {
+    store.faqs = collection(faqSchema, faqs);
+  });
 }
 
 // ======================== CAMPAIGNS ========================
 
-export function getCampaigns(includeInactive = false): CampaignBanner[] {
-  const store = getStore();
+export async function getCampaigns(includeInactive = false): Promise<CampaignBanner[]> {
+  const store = await getStore();
   if (includeInactive) return store.campaigns;
   return store.campaigns.filter((c) => c.isActive);
 }
 
-export function saveCampaigns(campaigns: CampaignBanner[]): void {
-  const store = getStore();
-  store.campaigns = collection(campaignSchema, campaigns);
-  saveStore(store);
+export async function saveCampaigns(campaigns: CampaignBanner[]): Promise<void> {
+  return mutateStore(store => {
+    store.campaigns = collection(campaignSchema, campaigns);
+  });
 }
 
 // ======================== SETTINGS ========================
 
-export function getSettings(): StoreSettings {
-  const store = getStore();
+export async function getSettings(): Promise<StoreSettings> {
+  const store = await getStore();
   return store.settings;
 }
 
-export function updateSettings(updates: Partial<StoreSettings>): StoreSettings {
-  const store = getStore();
-  store.settings = settingsSchema.parse({ ...store.settings, ...updates,
-    address: { ...store.settings.address, ...updates.address } });
-  store.settings.whatsappLink = `https://wa.me/${store.settings.whatsapp}`;
-  store.settings.instagramHandle = store.settings.instagramHandle.replace(/^@/, "");
-  store.settings.instagram = `https://www.instagram.com/${encodeURIComponent(store.settings.instagramHandle)}/`;
-  saveStore(store);
-  return store.settings;
+export async function updateSettings(updates: Partial<StoreSettings>): Promise<StoreSettings> {
+  return mutateStore(store => {
+    store.settings = settingsSchema.parse({ ...store.settings, ...updates,
+      address: { ...store.settings.address, ...updates.address } });
+    store.settings.whatsappLink = `https://wa.me/${store.settings.whatsapp}`;
+    store.settings.instagramHandle = store.settings.instagramHandle.replace(/^@/, "");
+    store.settings.instagram = `https://www.instagram.com/${encodeURIComponent(store.settings.instagramHandle)}/`;
+    return store.settings;
+  });
 }

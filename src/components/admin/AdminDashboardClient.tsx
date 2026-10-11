@@ -355,6 +355,7 @@ export function AdminDashboardClient({
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-brand-primary-50 border border-brand-primary-300 p-0.5">
                 <Image
+                                unoptimized
                   src="/images/brand/monogram-original.png"
                   alt="Logo CA"
                   width={36}
@@ -481,6 +482,7 @@ export function AdminDashboardClient({
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-lg bg-brand-bg border border-brand-border overflow-hidden relative shrink-0">
                               <Image
+                                unoptimized
                                 src={product.images?.[0] || "/images/products/caneca-personalizada-1.svg"}
                                 alt={product.name}
                                 fill
@@ -715,6 +717,7 @@ export function AdminDashboardClient({
                 >
                   <div className="w-16 h-16 rounded-xl bg-brand-surface border border-brand-border overflow-hidden relative shrink-0">
                     <Image
+                                unoptimized
                       src={item.image}
                       alt={item.title}
                       fill
@@ -1040,6 +1043,7 @@ export function AdminDashboardClient({
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-xl bg-brand-bg border border-brand-border overflow-hidden relative shrink-0">
                     <Image
+                                unoptimized
                       src={productForm.images?.[0] || "/images/products/caneca-personalizada-1.svg"}
                       alt="Preview"
                       fill
@@ -1052,7 +1056,7 @@ export function AdminDashboardClient({
                       <span>{uploadingImage ? "Enviando imagem..." : "Enviar Nova Foto"}</span>
                       <input
                         type="file"
-                        accept="image/png, image/jpeg, image/webp, image/svg+xml"
+                        accept="image/png, image/jpeg, image/webp"
                         className="hidden"
                         onChange={handleImageUpload}
                         disabled={uploadingImage}

@@ -12,7 +12,7 @@ const port = Number(process.env.TEST_PORT || 3219);
 const origin = `http://127.0.0.1:${port}`;
 const password = crypto.randomBytes(24).toString('hex');
 let child = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '-p', String(port), '-H', '127.0.0.1'], {
-  env: { ...process.env, ADMIN_PASSWORD: password, JWT_SECRET: crypto.randomBytes(32).toString('hex'),
+  env: { ...process.env, CATALOG_BACKEND: "file", VERCEL: "", SUPABASE_URL: "", SUPABASE_SECRET_KEY: "", SUPABASE_SERVICE_ROLE_KEY: "", ADMIN_PASSWORD: password, JWT_SECRET: crypto.randomBytes(32).toString('hex'),
     APP_ORIGIN: origin, CATALOG_DATA_DIR: dataDir, NEXT_TELEMETRY_DISABLED: '1' }, stdio: ['ignore', 'pipe', 'pipe'],
 });
 let output = '';
@@ -111,7 +111,7 @@ try {
   assert.ok(throttled); checks++; console.log('PASS login brute-force throttle');
   child.kill('SIGTERM'); await new Promise(resolve => child.once('exit',resolve));
   child = spawn(process.execPath,['node_modules/next/dist/bin/next','start','-p',String(port),'-H','127.0.0.1'],{
-    env:{...process.env,ADMIN_PASSWORD:'',JWT_SECRET:'',APP_ORIGIN:origin,CATALOG_DATA_DIR:dataDir},stdio:['ignore','pipe','pipe']
+    env:{...process.env,CATALOG_BACKEND:"file",VERCEL:"",SUPABASE_URL:"",SUPABASE_SECRET_KEY:"",SUPABASE_SERVICE_ROLE_KEY:"",ADMIN_PASSWORD:'',JWT_SECRET:'',APP_ORIGIN:origin,CATALOG_DATA_DIR:dataDir},stdio:['ignore','pipe','pipe']
   });
   child.stdout.on('data', chunk => { output += chunk; }); child.stderr.on('data', chunk => { output += chunk; });
   let secondReady=false;

@@ -25,14 +25,14 @@ import {
 export const revalidate = 0; // Fresh on reload
 
 export default async function HomePage() {
-  const products = getProducts(false);
-  const categories = getCategories(false);
-  const occasions = getOccasions(false);
-  const services = getServices(false);
-  const faqs = getFaqs(false);
-  const campaigns = getCampaigns(false);
-  const galleryItems = getGalleryItems(false);
-  const settings = getSettings();
+  const products = await getProducts(false);
+  const categories = await getCategories(false);
+  const occasions = await getOccasions(false);
+  const services = await getServices(false);
+  const faqs = await getFaqs(false);
+  const campaigns = await getCampaigns(false);
+  const galleryItems = await getGalleryItems(false);
+  const settings = await getSettings();
 
   return (
     <>

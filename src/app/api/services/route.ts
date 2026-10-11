@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const isAdmin = isAdminRequest(request);
 
     // Only admins or explicit draft request can see drafts; public visitors only see confirmed & published
-    const services = getServices(isAdmin && includeDrafts);
+    const services = await getServices(isAdmin && includeDrafts);
     return NextResponse.json(services);
   } catch (error) {
     return apiError(error);
@@ -29,7 +29,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
 
-    saveServices(services);
+    await saveServices(services);
     return NextResponse.json({ success: true, services });
   } catch (error) {
     return apiError(error);

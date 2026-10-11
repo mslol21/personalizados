@@ -73,12 +73,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const STORE_INFO = getSettings();
+  const STORE_INFO = await getSettings();
   // Schema.org LocalBusiness Structured Data
   const jsonLd = {
     "@context": "https://schema.org",

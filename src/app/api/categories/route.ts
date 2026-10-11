@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const includeAll = searchParams.get("includeAll") === "true";
     const isAdmin = isAdminRequest(request);
 
-    const categories = getCategories(isAdmin && includeAll);
+    const categories = await getCategories(isAdmin && includeAll);
     return NextResponse.json(categories);
   } catch (error) {
     return apiError(error);
@@ -28,7 +28,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
 
-    saveCategories(categories);
+    await saveCategories(categories);
     return NextResponse.json({ success: true, categories });
   } catch (error) {
     return apiError(error);

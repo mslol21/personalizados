@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const includeAll = searchParams.get("includeAll") === "true";
 
     const isAdmin = isAdminRequest(request);
-    const products = getProducts(isAdmin && includeAll);
+    const products = await getProducts(isAdmin && includeAll);
 
     let filtered = products;
 
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)+/g, "");
 
-    const newProduct = createProduct({
+    const newProduct = await createProduct({
       name: body.name,
       slug: slug,
       category: body.category,

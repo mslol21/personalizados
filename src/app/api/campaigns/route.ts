@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const includeInactive = searchParams.get("includeInactive") === "true";
     const isAdmin = isAdminRequest(request);
 
-    const campaigns = getCampaigns(isAdmin && includeInactive);
+    const campaigns = await getCampaigns(isAdmin && includeInactive);
     return NextResponse.json(campaigns);
   } catch (error) {
     return apiError(error);
@@ -28,7 +28,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
 
-    saveCampaigns(campaigns);
+    await saveCampaigns(campaigns);
     return NextResponse.json({ success: true, campaigns });
   } catch (error) {
     return apiError(error);

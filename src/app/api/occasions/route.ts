@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const includeAll = searchParams.get("includeAll") === "true";
     const isAdmin = isAdminRequest(request);
 
-    const occasions = getOccasions(isAdmin && includeAll);
+    const occasions = await getOccasions(isAdmin && includeAll);
     return NextResponse.json(occasions);
   } catch (error) {
     return apiError(error);
@@ -28,7 +28,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
 
-    saveOccasions(occasions);
+    await saveOccasions(occasions);
     return NextResponse.json({ success: true, occasions });
   } catch (error) {
     return apiError(error);

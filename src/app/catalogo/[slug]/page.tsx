@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductDetailClient } from "@/components/ProductDetailClient";
-import { getProductBySlug, getProducts, getSettings } from "@/lib/storage";
+import { getProductBySlug, getSettings } from "@/lib/storage";
 import type { Metadata } from "next";
 
 export const revalidate = 0;
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug, false);
+  const product = await getProductBySlug(slug, false);
 
   if (!product) {
     return {
@@ -33,21 +33,14 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
-  const products = getProducts(false);
-  return products.map((p) => ({
-    slug: p.slug,
-  }));
-}
-
 export default async function ProductDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug, false);
-  const settings = getSettings();
+  const product = await getProductBySlug(slug, false);
+  const settings = await getSettings();
 
   if (!product) {
     notFound();

@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const includeAll = searchParams.get("includeAll") === "true";
     const isAdmin = isAdminRequest(request);
 
-    const gallery = getGalleryItems(isAdmin && includeAll);
+    const gallery = await getGalleryItems(isAdmin && includeAll);
     return NextResponse.json(gallery);
   } catch (error) {
     return apiError(error);
@@ -28,7 +28,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Formato inválido. Esperado array." }, { status: 400 });
     }
 
-    saveGalleryItems(items);
+    await saveGalleryItems(items);
     return NextResponse.json({ success: true, gallery: items });
   } catch (error) {
     return apiError(error);
