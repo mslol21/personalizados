@@ -35,14 +35,14 @@ export default async function AdminDashboardPage() {
   }
 
   // Admin gets all products, categories, services, etc. including drafts and unpublished
-  const products = getProducts(true);
-  const categories = getCategories(true);
-  const occasions = getOccasions(true);
-  const services = getServices(true);
-  const gallery = getGalleryItems(true);
-  const faqs = getFaqs(true);
-  const campaigns = getCampaigns(true);
-  const settings = getSettings();
+  const products = await getProducts(true);
+  const categories = await getCategories(true);
+  const occasions = await getOccasions(true);
+  const services = await getServices(true);
+  const gallery = await getGalleryItems(true);
+  const faqs = await getFaqs(true);
+  const campaigns = await getCampaigns(true);
+  const settings = await getSettings();
 
   return (
     <AdminDashboardClient

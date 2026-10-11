@@ -13,8 +13,8 @@ export const metadata = {
 };
 
 export default async function EmpresasPage() {
-  const services = getServices(false);
-  const settings = getSettings();
+  const services = await getServices(false);
+  const settings = await getSettings();
 
   return (
     <>

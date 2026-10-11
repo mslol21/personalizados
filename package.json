@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "test": "node scripts/security-tests.mjs"
+    "test": "node scripts/security-tests.mjs",
+    "test:supabase": "node scripts/supabase-tests.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",

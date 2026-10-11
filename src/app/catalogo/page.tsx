@@ -18,10 +18,10 @@ export default async function CatalogPage({
   searchParams: Promise<{ category?: string; occasion?: string; q?: string }>;
 }) {
   const params = await searchParams;
-  const products = getProducts(false);
-  const categories = getCategories(false);
-  const occasions = getOccasions(false);
-  const settings = getSettings();
+  const products = await getProducts(false);
+  const categories = await getCategories(false);
+  const occasions = await getOccasions(false);
+  const settings = await getSettings();
 
   return (
     <>

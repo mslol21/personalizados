@@ -13,8 +13,8 @@ export const metadata = {
 };
 
 export default async function TrabalhosPage() {
-  const galleryItems = getGalleryItems(false);
-  const settings = getSettings();
+  const galleryItems = await getGalleryItems(false);
+  const settings = await getSettings();
 
   return (
     <>

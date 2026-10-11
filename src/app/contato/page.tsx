@@ -14,8 +14,8 @@ export const metadata = {
 };
 
 export default async function ContatoPage() {
-  const settings = getSettings();
-  const faqs = getFaqs(false);
+  const settings = await getSettings();
+  const faqs = await getFaqs(false);
 
   return (
     <>

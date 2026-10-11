@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAdminRequest } from "@/lib/auth";
 import { ApiError, apiError, readBytes } from "@/lib/api";
+import { usesSupabase, supabaseRequest } from "@/lib/supabase-server";
 import { assertWritableStore } from "@/lib/storage";
 import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
@@ -32,10 +33,18 @@ export async function POST(request: Request) {
       sanitized = await image.rotate().resize({ width: 2400, height: 2400, fit: "inside", withoutEnlargement: true })
         .webp({ quality: 85 }).toBuffer();
     } catch { throw new ApiError(400, "Imagem inválida, animada ou com dimensões excessivas."); }
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await fs.mkdir(uploadsDir, { recursive: true });
+    if (sanitized.length > MAX_SIZE) throw new ApiError(413, "A imagem convertida excede 5 MB.");
     const fileName = `${randomUUID()}.webp`;
-    await fs.writeFile(path.join(uploadsDir, fileName), sanitized, { flag: "wx" });
+    if (usesSupabase()) {
+      await supabaseRequest(`/storage/v1/object/catalog-photos/${fileName}`, {
+        method: "POST", body: new Uint8Array(sanitized),
+        headers: { "Content-Type": "image/webp", "x-upsert": "false", "cache-control": "0" },
+      });
+    } else {
+      const uploadsDir = path.join(process.cwd(), "public", "uploads");
+      await fs.mkdir(uploadsDir, { recursive: true });
+      await fs.writeFile(path.join(uploadsDir, fileName), sanitized, { flag: "wx" });
+    }
     return NextResponse.json({ success: true, url: `/uploads/${fileName}`, fileName });
   } catch (error) { return apiError(error); }
 }

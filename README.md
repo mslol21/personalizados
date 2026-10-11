@@ -24,11 +24,24 @@ Novos produtos na API são rascunhos por padrão. O formulário permite escolher
 
 ## Persistência e hospedagem
 
-O catálogo usa `data/store.json`, com gravação atômica, e imagens em `public/uploads`. Não existe integração ativa com Supabase. O arquivo de cliente sem uso foi removido; isso não migra dados nem altera o banco remoto.
+Na Vercel, o catálogo usa Supabase: `public.catalog_store` mantém os dados e uma revisão para impedir perda de alterações concorrentes. As fotos são convertidas em WebP e enviadas ao bucket privado `catalog-photos`. O servidor autentica cada alteração antes de acessar o banco; visitantes e usuários Supabase comuns não recebem acesso direto à tabela.
 
-Esta implementação exige **um único processo Node.js com disco persistente**, incluindo o diretório de uploads. `CATALOG_DATA_DIR` pode apontar para um volume persistente para os dados. Faça backups do JSON e das imagens. Não use várias réplicas/processos para escrever no mesmo arquivo: não existe coordenação distribuída.
+O projeto **criativo artes** (`cjfbbqvutsarubftkdlo`) foi preparado com 12 produtos e 9 categorias do catálogo inicial. A carga inicial em `supabase/seed.sql` não sobrescreve dados existentes. `supabase/bootstrap.sql` registra a estrutura e permissões aplicadas. Não execute a carga apontando para outro projeto sem revisar os dados.
 
-Na Vercel, as mutações e uploads são bloqueados com 503, pois disco efêmero não mantém o catálogo. Para habilitar edição nessa hospedagem, é necessário implementar banco e armazenamento de objetos com autorização, migração e testes. Configurar apenas uma URL do Supabase não resolve essa integração.
+Configure em **Production** na Vercel:
+
+| Variável | Valor |
+| --- | --- |
+| `CATALOG_BACKEND` | `supabase` (padrão na Vercel) |
+| `SUPABASE_URL` | `https://cjfbbqvutsarubftkdlo.supabase.co` |
+| `SUPABASE_SECRET_KEY` | Chave secreta `sb_secret_...` do projeto, em Settings > API Keys |
+| `APP_ORIGIN` e `NEXT_PUBLIC_SITE_URL` | Origem HTTPS real do site |
+
+A chave secreta fica apenas no servidor, sem prefixo `NEXT_PUBLIC_`; não é a senha administrativa nem o `JWT_SECRET`. A chave `service_role` legada também funciona em `SUPABASE_SERVICE_ROLE_KEY`. A chave anon/publishable não permite administrar este catálogo. Após configurar, publique esta versão e faça redeploy. Falha no Supabase gera erro explícito: a aplicação não grava no disco local nem troca silenciosamente para os itens iniciais.
+
+Fotos novas têm endereço local `/uploads/<uuid>.webp`; o servidor busca o objeto privado. Rascunhos e uploads não utilizados exigem sessão administrativa. Fotos referenciadas por produtos, categorias, trabalhos ou serviços publicados são servidas aos visitantes. Imagens do painel dispensam o otimizador para que a sessão seja enviada na prévia. Imagens publicadas podem já ter sido copiadas ou armazenadas pelo navegador/otimizador; ocultar um item não recupera cópias anteriores.
+
+Em desenvolvimento sem Supabase, `CATALOG_BACKEND=file` usa `data/store.json` e `public/uploads`. Esse modo requer um único processo Node com disco persistente. `CATALOG_DATA_DIR` pode apontar para um volume. Escritas em arquivo continuam proibidas na Vercel. Faça backup do banco e dos objetos; fotos sem referência após um formulário abandonado não são removidas automaticamente.
 
 Arquivo de dados inválido gera erro: não é substituído silenciosamente por valores padrão. Imagens e itens de demonstração existentes precisam ser substituídos ou confirmados pela proprietária antes de apresentar o portfólio como trabalhos reais.
 
@@ -50,10 +63,13 @@ Arquivo de dados inválido gera erro: não é substituído silenciosamente por v
 npm run lint
 npm run build
 npm test
+npm run test:supabase
 npm audit
 ```
 
 `npm run lint` executa a checagem de tipos; não é uma análise ESLint. A suíte de regressão inicia um servidor de produção próprio na porta 3219, usa credenciais geradas e uma cópia temporária do catálogo e limpa os dados após o teste. Requer build prévio. Nunca a execute apontando para a loja de produção.
+
+`test:supabase` usa uma simulação HTTP isolada do Supabase e um servidor Next em modo Vercel na porta 3221. Confere persistência após reinício, concorrência, publicação e privacidade das fotos, falha do backend e rejeição de chave pública. Não testa credenciais reais da hospedagem. Ambas as suítes isolam seus dados e não escrevem no banco de produção.
 
 Veja `SECURITY_REVIEW.md` para as vulnerabilidades corrigidas e pendências externas.
 
