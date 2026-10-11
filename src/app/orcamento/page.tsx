@@ -22,7 +22,7 @@ export default async function OrcamentoPage() {
       <main className="flex-1 py-10 bg-brand-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-gold-700">
+            <span className="text-xs font-bold uppercase tracking-wider text-brand-primary-700">
               Solicitação de Orçamento
             </span>
             <h1 className="font-display text-3xl sm:text-4xl font-bold text-brand-graphite-900 tracking-tight mt-1">

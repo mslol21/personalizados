@@ -32,8 +32,8 @@ export function GallerySection({ galleryItems }: GallerySectionProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-xs font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-brand-gold-600" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-800 text-xs font-semibold mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-brand-primary-600" />
               <span>Portfólio Criativo Artes</span>
             </div>
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-graphite-900 tracking-tight">
@@ -46,7 +46,7 @@ export function GallerySection({ galleryItems }: GallerySectionProps) {
 
           <Link
             href="/trabalhos"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-gold-800 bg-brand-gold-50 hover:bg-brand-gold-100 border border-brand-gold-200 transition-colors group shrink-0"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-primary-800 bg-brand-primary-50 hover:bg-brand-primary-100 border border-brand-primary-200 transition-colors group shrink-0"
           >
             <span>Ver galeria completa</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -62,9 +62,9 @@ export function GallerySection({ galleryItems }: GallerySectionProps) {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveFilter(cat.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-600 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-600 ${
                   isActive
-                    ? "bg-brand-gold-700 text-white shadow-subtle"
+                    ? "bg-brand-primary-700 text-white shadow-subtle"
                     : "bg-brand-bg text-brand-graphite-700 hover:bg-brand-muted border border-brand-border"
                 }`}
               >
@@ -79,7 +79,7 @@ export function GallerySection({ galleryItems }: GallerySectionProps) {
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="group flex flex-col bg-brand-bg rounded-2xl border border-brand-border hover:border-brand-gold-300 overflow-hidden shadow-subtle hover:shadow-card transition-all"
+              className="group flex flex-col bg-brand-bg rounded-2xl border border-brand-border hover:border-brand-primary-300 overflow-hidden shadow-subtle hover:shadow-card transition-all"
             >
               <div className="relative aspect-[4/3] w-full bg-brand-surface overflow-hidden">
                 <Image

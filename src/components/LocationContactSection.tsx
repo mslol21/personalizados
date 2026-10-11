@@ -24,8 +24,8 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
           {/* Information Column */}
           <div className="lg:col-span-6 space-y-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-xs font-semibold mb-2">
-                <MapPin className="w-3.5 h-3.5 text-brand-gold-600" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-800 text-xs font-semibold mb-2">
+                <MapPin className="w-3.5 h-3.5 text-brand-primary-600" />
                 <span>Nossa Localização &amp; Atendimento</span>
               </div>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-graphite-900 tracking-tight">
@@ -39,7 +39,7 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
             {/* Address Card */}
             <div className="p-5 rounded-2xl bg-brand-surface border border-brand-border shadow-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-700 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-xl bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-700 flex items-center justify-center shrink-0 mt-0.5">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -61,14 +61,14 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-brand-graphite-900 bg-brand-muted/80 hover:bg-brand-muted border border-brand-border transition-colors shrink-0"
               >
-                <Navigation className="w-4 h-4 text-brand-gold-700" />
+                <Navigation className="w-4 h-4 text-brand-primary-700" />
                 <span>Como Chegar (Google Maps)</span>
               </a>
             </div>
 
             {/* Business Hours (Real only when registered) */}
             <div className="p-5 rounded-2xl bg-brand-surface border border-brand-border shadow-subtle flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-700 flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-10 h-10 rounded-xl bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-700 flex items-center justify-center shrink-0 mt-0.5">
                 <Clock className="w-5 h-5" />
               </div>
               <div>
@@ -178,15 +178,15 @@ export function LocationContactSection({ settings }: LocationContactSectionProps
                   href={`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(opt.msg)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3.5 rounded-xl bg-brand-bg hover:bg-brand-gold-50 border border-brand-border hover:border-brand-gold-300 transition-all text-xs font-semibold text-brand-graphite-800 group"
+                  className="flex items-center justify-between p-3.5 rounded-xl bg-brand-bg hover:bg-brand-primary-50 border border-brand-border hover:border-brand-primary-300 transition-all text-xs font-semibold text-brand-graphite-800 group"
                 >
                   <span className="line-clamp-1">{opt.title}</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-brand-gold-700 shrink-0 ml-2 group-hover:translate-x-0.5 transition-transform" />
+                  <ExternalLink className="w-3.5 h-3.5 text-brand-primary-700 shrink-0 ml-2 group-hover:translate-x-0.5 transition-transform" />
                 </a>
               ))}
             </div>
 
-            <div className="p-4 rounded-xl bg-brand-gold-50/60 border border-brand-gold-200 text-xs text-brand-gold-900">
+            <div className="p-4 rounded-xl bg-brand-primary-50/60 border border-brand-primary-200 text-xs text-brand-primary-900">
               <MapPin className="inline-block w-4 h-4 mr-2" aria-hidden="true" /><strong>Visite nossa loja:</strong> {settings.address.fullAddress}
             </div>
           </div>

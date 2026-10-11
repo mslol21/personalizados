@@ -59,7 +59,7 @@ export function QuoteDrawer() {
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-brand-border bg-brand-bg flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-brand-gold-100 text-brand-gold-800 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-brand-primary-100 text-brand-primary-800 flex items-center justify-center">
                 <ShoppingBag className="w-4 h-4" />
               </div>
               <div>
@@ -75,7 +75,7 @@ export function QuoteDrawer() {
             <button
               type="button"
               onClick={() => setIsDrawerOpen(false)}
-              className="p-2 rounded-xl text-brand-graphite-500 hover:text-brand-graphite-800 hover:bg-brand-muted/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-600"
+              className="p-2 rounded-xl text-brand-graphite-500 hover:text-brand-graphite-800 hover:bg-brand-muted/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-600"
               aria-label="Fechar lista"
             >
               <X className="w-5 h-5" />
@@ -86,7 +86,7 @@ export function QuoteDrawer() {
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
             {items.length === 0 ? (
               <div className="text-center py-12 px-4 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-600 flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 rounded-full bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-600 flex items-center justify-center mx-auto">
                   <ShoppingBag className="w-8 h-8" />
                 </div>
                 <h3 className="font-display text-lg font-bold text-brand-graphite-900">
@@ -98,7 +98,7 @@ export function QuoteDrawer() {
                 <Link
                   href="/catalogo"
                   onClick={() => setIsDrawerOpen(false)}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-brand-gold-700 hover:bg-brand-gold-800 transition-colors shadow-subtle"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-brand-primary-700 hover:bg-brand-primary-800 transition-colors shadow-subtle"
                 >
                   <span>Explorar Catálogo</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -126,7 +126,7 @@ export function QuoteDrawer() {
                       <h4 className="font-display text-sm font-bold text-brand-graphite-900 truncate">
                         {item.productName}
                       </h4>
-                      <p className="text-[11px] text-brand-gold-700 font-medium truncate">
+                      <p className="text-[11px] text-brand-primary-700 font-medium truncate">
                         {item.categoryName}
                       </p>
 
@@ -180,7 +180,7 @@ export function QuoteDrawer() {
                             R$ {(item.price * item.quantity).toFixed(2).replace(".", ",")}
                           </span>
                         ) : (
-                          <span className="text-[11px] font-semibold text-brand-gold-800">
+                          <span className="text-[11px] font-semibold text-brand-primary-800">
                             Sob orçamento
                           </span>
                         )}
@@ -213,8 +213,8 @@ export function QuoteDrawer() {
           {/* Footer & WhatsApp Sender Action */}
           {items.length > 0 && (
             <div className="p-4 sm:p-5 border-t border-brand-border bg-brand-bg space-y-3">
-              <div className="p-3 rounded-xl bg-brand-gold-50 border border-brand-gold-200 text-[11px] text-brand-gold-950 flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-brand-gold-600 shrink-0 mt-0.5" />
+              <div className="p-3 rounded-xl bg-brand-primary-50 border border-brand-primary-200 text-[11px] text-brand-primary-950 flex items-start gap-2">
+                <Sparkles className="w-4 h-4 text-brand-primary-600 shrink-0 mt-0.5" />
                 <span>
                   Fotos e arquivos para a arte podem ser enviados diretamente no WhatsApp após o envio da lista.
                 </span>
@@ -244,7 +244,7 @@ export function QuoteDrawer() {
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4 text-brand-gold-700" />
+                    <Copy className="w-4 h-4 text-brand-primary-700" />
                     <span>Copiar resumo do pedido</span>
                   </>
                 )}

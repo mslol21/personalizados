@@ -22,8 +22,8 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-xs font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-brand-gold-600" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-800 text-xs font-semibold mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-brand-primary-600" />
               <span>Destaques da Criativo Artes</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-brand-graphite-900 tracking-tight">
@@ -36,7 +36,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
 
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-gold-800 bg-brand-gold-50 hover:bg-brand-gold-100 border border-brand-gold-200 transition-colors group shrink-0"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-primary-800 bg-brand-primary-50 hover:bg-brand-primary-100 border border-brand-primary-200 transition-colors group shrink-0"
           >
             <span>Ver todo o catálogo</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

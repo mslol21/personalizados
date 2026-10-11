@@ -61,4 +61,4 @@ Veja `SECURITY_REVIEW.md` para as vulnerabilidades corrigidas e pendências exte
 
 O cabeçalho, rodapé, painel e favicon utilizam a marca original recortada das imagens fornecidas. A página inicial e o produto de caneca cerâmica usam fotos reais dessas referências; a seção de contato inclui a fachada. Os demais arquivos de demonstração ainda precisam ser substituídos por fotos aprovadas da empresa.
 
-O layout usa tons de creme, oliva e dourado, títulos com maior hierarquia, ícones Lucide com traço uniforme e navegação adaptada para celular. Os dados de contato continuam editáveis nas configurações.
+O layout usa rosa, fundos escuros, amarelo-lima e azul-ciano inspirados na referência https://www.brind.etc.br/, mantendo o dourado apenas na arte original da logo, títulos com maior hierarquia, ícones Lucide com traço uniforme e navegação adaptada para celular. Os dados de contato continuam editáveis nas configurações.

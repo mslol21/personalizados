@@ -27,7 +27,7 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-4">
             <Link
               href="/"
-              className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-400 rounded-lg group"
+              className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-400 rounded-lg group"
             >
               <span className="rounded-md bg-white p-3 inline-flex"><BrandLogo /></span>
             </Link>
@@ -59,7 +59,7 @@ export function Footer() {
                 href={STORE_INFO.address.googleMapsSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-brand-graphite-800 text-brand-gold-400 hover:bg-brand-gold-600 hover:text-white transition-colors flex items-center justify-center border border-brand-graphite-700"
+                className="w-9 h-9 rounded-xl bg-brand-graphite-800 text-brand-primary-400 hover:bg-brand-primary-600 hover:text-white transition-colors flex items-center justify-center border border-brand-graphite-700"
                 aria-label="Localização no Google Maps"
               >
                 <Navigation className="w-4 h-4" />
@@ -69,7 +69,7 @@ export function Footer() {
 
           {/* Navigation Links */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-brand-gold-300">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-brand-primary-300">
               Navegação
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm">
@@ -103,7 +103,7 @@ export function Footer() {
 
           {/* Product Categories Links */}
           <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-brand-gold-300">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-brand-primary-300">
               Personalizados
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-brand-graphite-400">
@@ -137,12 +137,12 @@ export function Footer() {
 
           {/* Contact & Location Info */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-brand-gold-300">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-brand-primary-300">
               Loja &amp; Atendimento
             </h4>
             <div className="space-y-2.5 text-xs text-brand-graphite-300">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-brand-gold-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-brand-primary-400 shrink-0 mt-0.5" />
                 <span>
                   {STORE_INFO.address.fullAddress}
                 </span>
@@ -187,7 +187,7 @@ export function Footer() {
             </span>
             <Link
               href="/admin/login"
-              className="inline-flex items-center gap-1 text-[11px] text-brand-graphite-400 hover:text-brand-gold-300 transition-colors"
+              className="inline-flex items-center gap-1 text-[11px] text-brand-graphite-400 hover:text-brand-primary-300 transition-colors"
             >
               <Lock className="w-3 h-3" />
               <span>Acesso Restrito</span>
