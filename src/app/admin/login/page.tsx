@@ -47,13 +47,13 @@ export default function AdminLoginPage() {
         <div className="text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs text-brand-gold-800 hover:text-brand-gold-900 font-semibold mb-6 group"
+            className="inline-flex items-center gap-1.5 text-xs text-brand-primary-800 hover:text-brand-primary-900 font-semibold mb-6 group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span>Voltar ao site público</span>
           </Link>
 
-          <div className="w-16 h-16 rounded-full bg-brand-surface border border-brand-gold-300 p-1 mx-auto shadow-subtle mb-3">
+          <div className="w-16 h-16 rounded-full bg-brand-surface border border-brand-primary-300 p-1 mx-auto shadow-subtle mb-3">
             <Image
               src="/images/brand/monogram-original.png"
               alt="Logo CA"
@@ -93,13 +93,13 @@ export default function AdminLoginPage() {
                     placeholder="Digite a senha administrativa"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-gold-500 focus:bg-white text-sm text-brand-graphite-900 transition-colors"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-primary-500 focus:bg-white text-sm text-brand-graphite-900 transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-brand-gold-50/70 border border-brand-gold-200 text-[11px] text-brand-gold-950 flex items-start gap-2">
-                <ShieldCheck className="w-4 h-4 text-brand-gold-700 shrink-0 mt-0.5" />
+              <div className="p-3 rounded-xl bg-brand-primary-50/70 border border-brand-primary-200 text-[11px] text-brand-primary-950 flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 text-brand-primary-700 shrink-0 mt-0.5" />
                 <span>
                   Área restrita à proprietária da Criativo Artes para atualização de produtos e fotos.
                 </span>
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-brand-gold-700 hover:bg-brand-gold-800 disabled:opacity-60 transition-all shadow-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-600"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-brand-primary-700 hover:bg-brand-primary-800 disabled:opacity-60 transition-all shadow-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-600"
               >
                 <span>{loading ? "Entrando..." : "Acessar Painel"}</span>
                 <ArrowRight className="w-4 h-4" />

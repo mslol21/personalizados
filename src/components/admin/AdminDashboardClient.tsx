@@ -353,7 +353,7 @@ export function AdminDashboardClient({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-brand-gold-50 border border-brand-gold-300 p-0.5">
+              <div className="w-9 h-9 rounded-full bg-brand-primary-50 border border-brand-primary-300 p-0.5">
                 <Image
                   src="/images/brand/monogram-original.png"
                   alt="Logo CA"
@@ -366,7 +366,7 @@ export function AdminDashboardClient({
                 <span className="font-display text-base font-bold text-brand-graphite-900 leading-none block">
                   Criativo Artes • Painel Administrativo
                 </span>
-                <span className="text-[10px] text-brand-gold-700 font-semibold tracking-wider uppercase">
+                <span className="text-[10px] text-brand-primary-700 font-semibold tracking-wider uppercase">
                   Gestor de Catálogo e Conteúdo
                 </span>
               </div>
@@ -417,7 +417,7 @@ export function AdminDashboardClient({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 ${
                   isActive
-                    ? "bg-brand-gold-700 text-white shadow-subtle"
+                    ? "bg-brand-primary-700 text-white shadow-subtle"
                     : "bg-brand-surface text-brand-graphite-700 hover:bg-brand-muted border border-brand-border"
                 }`}
               >
@@ -453,7 +453,7 @@ export function AdminDashboardClient({
               <button
                 type="button"
                 onClick={openNewProductModal}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-brand-gold-700 hover:bg-brand-gold-800 transition-colors shadow-subtle"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-brand-primary-700 hover:bg-brand-primary-800 transition-colors shadow-subtle"
               >
                 <Plus className="w-4 h-4" />
                 <span>Adicionar produto</span>
@@ -510,7 +510,7 @@ export function AdminDashboardClient({
                               R$ {product.price.toFixed(2).replace(".", ",")}
                             </span>
                           ) : (
-                            <span className="text-xs font-semibold text-brand-gold-800 bg-brand-gold-50 px-2 py-0.5 rounded border border-brand-gold-200">
+                            <span className="text-xs font-semibold text-brand-primary-800 bg-brand-primary-50 px-2 py-0.5 rounded border border-brand-primary-200">
                               Sob orçamento
                             </span>
                           )}
@@ -560,7 +560,7 @@ export function AdminDashboardClient({
                             <button
                               type="button"
                               onClick={() => openEditProductModal(product)}
-                              className="p-1.5 text-brand-graphite-700 hover:text-brand-gold-800 hover:bg-brand-gold-50 rounded-lg border border-brand-border transition-colors"
+                              className="p-1.5 text-brand-graphite-700 hover:text-brand-primary-800 hover:bg-brand-primary-50 rounded-lg border border-brand-border transition-colors"
                               title="Editar produto"
                             >
                               <Edit2 className="w-4 h-4" />
@@ -633,7 +633,7 @@ export function AdminDashboardClient({
                       <span className="font-bold text-brand-graphite-900">{occ.name}</span>
                       <span className="text-[11px] text-brand-graphite-500 block">{occ.description}</span>
                     </div>
-                    <span className="text-[10px] font-semibold text-brand-gold-800 bg-brand-gold-50 px-2 py-0.5 rounded border border-brand-gold-200">
+                    <span className="text-[10px] font-semibold text-brand-primary-800 bg-brand-primary-50 px-2 py-0.5 rounded border border-brand-primary-200">
                       Publicada
                     </span>
                   </div>
@@ -725,7 +725,7 @@ export function AdminDashboardClient({
                     <h4 className="font-bold text-xs text-brand-graphite-900 truncate">
                       {item.title}
                     </h4>
-                    <span className="text-[10px] uppercase font-bold text-brand-gold-700">
+                    <span className="text-[10px] uppercase font-bold text-brand-primary-700">
                       {item.category}
                     </span>
                     <p className="text-[11px] text-brand-graphite-600 line-clamp-1 mt-0.5">
@@ -909,7 +909,7 @@ export function AdminDashboardClient({
                     id="noticeActive"
                     checked={settings.bannerNoticeActive}
                     onChange={(e) => setSettings({ ...settings, bannerNoticeActive: e.target.checked })}
-                    className="rounded text-brand-gold-600 focus:ring-brand-gold-500"
+                    className="rounded text-brand-primary-600 focus:ring-brand-primary-500"
                   />
                   <label htmlFor="noticeActive" className="text-xs text-brand-graphite-700 font-medium">
                     Exibir barra de aviso no topo do site
@@ -920,7 +920,7 @@ export function AdminDashboardClient({
               <div className="pt-3">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-brand-gold-700 hover:bg-brand-gold-800 transition-colors shadow-subtle"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-brand-primary-700 hover:bg-brand-primary-800 transition-colors shadow-subtle"
                 >
                   <Save className="w-4 h-4" />
                   <span>Salvar alterações</span>
@@ -1048,7 +1048,7 @@ export function AdminDashboardClient({
                   </div>
                   <div>
                     <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-brand-graphite-900 bg-brand-bg hover:bg-brand-muted border border-brand-border cursor-pointer transition-colors">
-                      <Upload className="w-4 h-4 text-brand-gold-700" />
+                      <Upload className="w-4 h-4 text-brand-primary-700" />
                       <span>{uploadingImage ? "Enviando imagem..." : "Enviar Nova Foto"}</span>
                       <input
                         type="file"
@@ -1072,7 +1072,7 @@ export function AdminDashboardClient({
                     type="checkbox"
                     checked={productForm.isFeatured}
                     onChange={(e) => setProductForm({ ...productForm, isFeatured: e.target.checked })}
-                    className="rounded text-brand-gold-600 focus:ring-brand-gold-500"
+                    className="rounded text-brand-primary-600 focus:ring-brand-primary-500"
                   />
                   <span className="font-semibold text-brand-graphite-800">Destacar na página inicial</span>
                 </label>
@@ -1082,7 +1082,7 @@ export function AdminDashboardClient({
                     type="checkbox"
                     checked={productForm.isPublished}
                     onChange={(e) => setProductForm({ ...productForm, isPublished: e.target.checked })}
-                    className="rounded text-brand-gold-600 focus:ring-brand-gold-500"
+                    className="rounded text-brand-primary-600 focus:ring-brand-primary-500"
                   />
                   <span className="font-semibold text-brand-graphite-800">Publicado no catálogo</span>
                 </label>
@@ -1099,7 +1099,7 @@ export function AdminDashboardClient({
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-brand-gold-700 hover:bg-brand-gold-800 transition-colors shadow-subtle"
+                  className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-brand-primary-700 hover:bg-brand-primary-800 transition-colors shadow-subtle"
                 >
                   Salvar alterações
                 </button>

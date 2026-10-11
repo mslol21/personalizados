@@ -24,8 +24,8 @@ export function FAQSection({ faqs }: FAQSectionProps) {
     <section className="py-16 bg-brand-surface border-b border-brand-border/40">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-xs font-semibold mb-2">
-            <HelpCircle className="w-3.5 h-3.5 text-brand-gold-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-800 text-xs font-semibold mb-2">
+            <HelpCircle className="w-3.5 h-3.5 text-brand-primary-600" />
             <span>Tire Suas Dúvidas</span>
           </div>
           <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-graphite-900 tracking-tight">
@@ -45,14 +45,14 @@ export function FAQSection({ faqs }: FAQSectionProps) {
                 key={faq.id}
                 className={`rounded-2xl border transition-all ${
                   isOpen
-                    ? "bg-brand-gold-50/40 border-brand-gold-300 shadow-subtle"
-                    : "bg-brand-bg border-brand-border hover:border-brand-gold-200"
+                    ? "bg-brand-primary-50/40 border-brand-primary-300 shadow-subtle"
+                    : "bg-brand-bg border-brand-border hover:border-brand-primary-200"
                 }`}
               >
                 <button
                   type="button"
                   onClick={() => toggleAccordion(index)}
-                  className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-600 rounded-2xl"
+                  className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-600 rounded-2xl"
                   aria-expanded={isOpen}
                 >
                   <span className="font-display text-base sm:text-lg font-bold text-brand-graphite-900">
@@ -61,7 +61,7 @@ export function FAQSection({ faqs }: FAQSectionProps) {
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
                       isOpen
-                        ? "bg-brand-gold-600 text-white rotate-180"
+                        ? "bg-brand-primary-600 text-white rotate-180"
                         : "bg-brand-surface text-brand-graphite-600 border border-brand-border"
                     }`}
                   >

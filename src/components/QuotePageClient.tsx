@@ -38,7 +38,7 @@ export function QuotePageClient() {
   if (items.length === 0) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16 px-4 bg-brand-surface rounded-3xl border border-brand-border shadow-subtle space-y-4">
-        <div className="w-16 h-16 rounded-2xl bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-700 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-2xl bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-700 flex items-center justify-center mx-auto">
           <ShoppingBag className="w-8 h-8" />
         </div>
         <h2 className="font-display text-2xl font-bold text-brand-graphite-900">
@@ -50,7 +50,7 @@ export function QuotePageClient() {
         <div className="pt-2">
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold text-white bg-brand-gold-700 hover:bg-brand-gold-800 transition-all shadow-subtle"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold text-white bg-brand-primary-700 hover:bg-brand-primary-800 transition-all shadow-subtle"
           >
             <span>Ver Catálogo de Produtos</span>
             <ArrowRight className="w-4 h-4" />
@@ -100,7 +100,7 @@ export function QuotePageClient() {
                     <h3 className="font-display text-base sm:text-lg font-bold text-brand-graphite-900">
                       {item.productName}
                     </h3>
-                    <span className="text-xs font-semibold text-brand-gold-700">
+                    <span className="text-xs font-semibold text-brand-primary-700">
                       {item.categoryName}
                     </span>
                   </div>
@@ -187,12 +187,12 @@ export function QuotePageClient() {
             </div>
             <div className="flex items-center justify-between">
               <span>Valores e Prazos:</span>
-              <span className="font-bold text-brand-gold-800">Confirmados no WhatsApp</span>
+              <span className="font-bold text-brand-primary-800">Confirmados no WhatsApp</span>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-brand-gold-50 border border-brand-gold-200 text-xs text-brand-gold-950 flex items-start gap-2">
-            <Info className="w-4 h-4 text-brand-gold-700 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-xl bg-brand-primary-50 border border-brand-primary-200 text-xs text-brand-primary-950 flex items-start gap-2">
+            <Info className="w-4 h-4 text-brand-primary-700 shrink-0 mt-0.5" />
             <span>
               Você poderá enviar as imagens e logotipos diretamente na nossa conversa do WhatsApp após enviar a lista!
             </span>
@@ -222,7 +222,7 @@ export function QuotePageClient() {
               </>
             ) : (
               <>
-                <Copy className="w-4 h-4 text-brand-gold-700" />
+                <Copy className="w-4 h-4 text-brand-primary-700" />
                 <span>Copiar texto do pedido</span>
               </>
             )}

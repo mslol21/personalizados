@@ -79,7 +79,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       <div>
         <Link
           href="/catalogo"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand-gold-800 hover:text-brand-gold-900 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand-primary-800 hover:text-brand-primary-900 transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           <span>Voltar para o catálogo</span>
@@ -102,7 +102,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
             {product.isFeatured && (
               <div className="absolute top-4 left-4 bg-brand-graphite-900/85 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-subtle">
-                <Sparkles className="w-3.5 h-3.5 text-brand-gold-400" />
+                <Sparkles className="w-3.5 h-3.5 text-brand-primary-400" />
                 Destaque
               </div>
             )}
@@ -118,7 +118,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   onClick={() => setSelectedImageIndex(idx)}
                   className={`relative w-20 h-20 rounded-xl bg-brand-surface border overflow-hidden shrink-0 transition-all ${
                     selectedImageIndex === idx
-                      ? "border-brand-gold-600 ring-2 ring-brand-gold-400/30"
+                      ? "border-brand-primary-600 ring-2 ring-brand-primary-400/30"
                       : "border-brand-border opacity-70 hover:opacity-100"
                   }`}
                   aria-label={`Visualizar imagem ${idx + 1}`}
@@ -162,7 +162,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           <div className="bg-brand-surface p-6 sm:p-8 rounded-3xl border border-brand-border shadow-card space-y-6">
             {/* Category & Name */}
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-brand-gold-700">
+              <span className="text-xs font-bold uppercase tracking-wider text-brand-primary-700">
                 {product.categoryName}
               </span>
               <h1 className="font-display text-2xl sm:text-3xl font-bold text-brand-graphite-900 mt-1 leading-snug">
@@ -181,7 +181,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     </span>
                   </>
                 ) : (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-sm font-bold">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-800 text-sm font-bold">
                     Sob orçamento personalizado
                   </div>
                 )}
@@ -196,7 +196,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             {/* Customization Form */}
             <form onSubmit={handleAddToCart} className="space-y-4 pt-4 border-t border-brand-border/60">
               <h3 className="font-display text-base font-bold text-brand-graphite-900 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-brand-gold-600" />
+                <Sparkles className="w-4 h-4 text-brand-primary-600" />
                 <span>Personalize o seu item</span>
               </h3>
 
@@ -248,7 +248,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     placeholder="Ex: 'Melhor Mãe do Mundo', 'Lucas 15 anos'..."
                     value={customNamePhrase}
                     onChange={(e) => setCustomNamePhrase(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-gold-500 focus:bg-white text-xs sm:text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-primary-500 focus:bg-white text-xs sm:text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors"
                   />
                 </div>
               )}
@@ -264,7 +264,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     placeholder="Ex: 'Floral dourado', 'Aniversário infantil Safari', 'Logo da Empresa'..."
                     value={customTheme}
                     onChange={(e) => setCustomTheme(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-gold-500 focus:bg-white text-xs sm:text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-primary-500 focus:bg-white text-xs sm:text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors"
                   />
                 </div>
               )}
@@ -279,13 +279,13 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   placeholder="Algum detalhe especial ou dúvida sobre este item?"
                   value={customObservations}
                   onChange={(e) => setCustomObservations(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-gold-500 focus:bg-white text-xs sm:text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-primary-500 focus:bg-white text-xs sm:text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors resize-none"
                 />
               </div>
 
               {/* Callout about Photos & Logos */}
-              <div className="p-3.5 rounded-xl bg-brand-gold-50 border border-brand-gold-200 text-xs text-brand-gold-950 flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-brand-gold-700 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-brand-primary-50 border border-brand-primary-200 text-xs text-brand-primary-950 flex items-start gap-2.5">
+                <Info className="w-4 h-4 text-brand-primary-700 shrink-0 mt-0.5" />
                 <span>
                   <strong>Fotos e arquivos da arte:</strong> Você poderá anexar e enviar fotos em alta definição diretamente na nossa conversa do WhatsApp após a solicitação.
                 </span>
@@ -296,7 +296,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 {/* Add to Quote Cart Button */}
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-brand-gold-700 hover:bg-brand-gold-800 transition-all shadow-card hover:shadow-cardHover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold-600 active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-brand-primary-700 hover:bg-brand-primary-800 transition-all shadow-card hover:shadow-cardHover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-600 active:scale-[0.98]"
                 >
                   <ShoppingBag className="w-5 h-5" />
                   <span>Adicionar à Lista de Orçamento</span>

@@ -42,8 +42,8 @@ export function StepsSection() {
     <section className="py-16 bg-brand-surface border-b border-brand-border/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-brand-gold-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-800 text-xs font-semibold mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-brand-primary-600" />
             <span>Processo Simples e Direto</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-graphite-900 tracking-tight">
@@ -60,14 +60,14 @@ export function StepsSection() {
             return (
               <div
                 key={step.number}
-                className="relative flex flex-col p-6 rounded-lg bg-brand-bg border border-brand-border hover:border-brand-gold-300 transition-all shadow-subtle group"
+                className="relative flex flex-col p-6 rounded-lg bg-brand-bg border border-brand-border hover:border-brand-primary-300 transition-all shadow-subtle group"
               >
                 {/* Step Number Badge */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-display text-2xl font-bold text-brand-gold-600 group-hover:text-brand-gold-700 transition-colors">
+                  <span className="font-display text-2xl font-bold text-brand-primary-600 group-hover:text-brand-primary-700 transition-colors">
                     {step.number}
                   </span>
-                  <div className="w-10 h-10 rounded-full bg-brand-surface border border-brand-border flex items-center justify-center text-brand-gold-700 shadow-subtle">
+                  <div className="w-10 h-10 rounded-full bg-brand-surface border border-brand-border flex items-center justify-center text-brand-primary-700 shadow-subtle">
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
@@ -82,7 +82,7 @@ export function StepsSection() {
 
                 {/* Decorative connecting arrow on desktop */}
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-brand-surface border border-brand-border text-brand-gold-600 flex items-center justify-center text-xs font-bold shadow-subtle">
+                  <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-brand-surface border border-brand-border text-brand-primary-600 flex items-center justify-center text-xs font-bold shadow-subtle">
                     →
                   </div>
                 )}
@@ -92,8 +92,8 @@ export function StepsSection() {
         </div>
 
         {/* Helpful Info Callout */}
-        <div className="mt-8 p-4 rounded-xl bg-brand-gold-50/80 border border-brand-gold-200/80 max-w-3xl mx-auto text-center">
-          <p className="text-xs sm:text-sm text-brand-gold-900 font-medium">
+        <div className="mt-8 p-4 rounded-xl bg-brand-primary-50/80 border border-brand-primary-200/80 max-w-3xl mx-auto text-center">
+          <p className="text-xs sm:text-sm text-brand-primary-900 font-medium">
             <Lightbulb className="inline-block w-4 h-4 mr-2" aria-hidden="true" /><strong>Sua referência faz a diferença.</strong> Você pode enviar fotos em alta resolução, referências de arte ou logos da sua empresa diretamente na nossa conversa do WhatsApp após solicitar o orçamento!
           </p>
         </div>

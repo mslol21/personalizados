@@ -105,7 +105,7 @@ export function CatalogClient({
               placeholder="Buscar por caneca, garrafa, taça, azulejo..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-gold-500 focus:bg-white text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-primary-500 focus:bg-white text-sm text-brand-graphite-900 placeholder-brand-graphite-400 transition-colors"
             />
             {searchQuery && (
               <button
@@ -125,7 +125,7 @@ export function CatalogClient({
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full pl-10 pr-8 py-3 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-gold-500 focus:bg-white text-sm text-brand-graphite-900 font-medium transition-colors appearance-none cursor-pointer"
+              className="w-full pl-10 pr-8 py-3 rounded-xl bg-brand-bg border border-brand-border focus:border-brand-primary-500 focus:bg-white text-sm text-brand-graphite-900 font-medium transition-colors appearance-none cursor-pointer"
               aria-label="Ordenar produtos por"
             >
               <option value="featured">Destaques Primeiro</option>
@@ -139,7 +139,7 @@ export function CatalogClient({
         {/* Category Pills */}
         <div className="pt-2 border-t border-brand-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <Filter className="w-3.5 h-3.5 text-brand-gold-700" />
+            <Filter className="w-3.5 h-3.5 text-brand-primary-700" />
             <span className="text-xs font-bold uppercase tracking-wider text-brand-graphite-600">
               Categorias:
             </span>
@@ -151,7 +151,7 @@ export function CatalogClient({
               onClick={() => setSelectedCategory("todas")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 selectedCategory === "todas"
-                  ? "bg-brand-gold-700 text-white shadow-subtle"
+                  ? "bg-brand-primary-700 text-white shadow-subtle"
                   : "bg-brand-bg text-brand-graphite-700 hover:bg-brand-muted border border-brand-border"
               }`}
             >
@@ -167,7 +167,7 @@ export function CatalogClient({
                   onClick={() => setSelectedCategory(cat.slug)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     selectedCategory === cat.slug
-                      ? "bg-brand-gold-700 text-white shadow-subtle"
+                      ? "bg-brand-primary-700 text-white shadow-subtle"
                       : "bg-brand-bg text-brand-graphite-700 hover:bg-brand-muted border border-brand-border"
                   }`}
                 >
@@ -180,7 +180,7 @@ export function CatalogClient({
         {/* Occasions Pills */}
         <div className="pt-2 border-t border-brand-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-brand-gold-700" />
+            <Sparkles className="w-3.5 h-3.5 text-brand-primary-700" />
             <span className="text-xs font-bold uppercase tracking-wider text-brand-graphite-600">
               Ocasiões:
             </span>
@@ -227,7 +227,7 @@ export function CatalogClient({
             <button
               type="button"
               onClick={clearFilters}
-              className="inline-flex items-center gap-1 font-semibold text-brand-gold-800 hover:text-brand-gold-900 underline"
+              className="inline-flex items-center gap-1 font-semibold text-brand-primary-800 hover:text-brand-primary-900 underline"
             >
               <X className="w-3.5 h-3.5" />
               Limpar todos os filtros
@@ -245,7 +245,7 @@ export function CatalogClient({
         </div>
       ) : (
         <div className="text-center py-16 px-4 bg-brand-surface rounded-3xl border border-brand-border shadow-subtle space-y-4 max-w-xl mx-auto">
-          <div className="w-16 h-16 rounded-2xl bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-700 flex items-center justify-center mx-auto">
+          <div className="w-16 h-16 rounded-2xl bg-brand-primary-50 border border-brand-primary-200 text-brand-primary-700 flex items-center justify-center mx-auto">
             <Search className="w-8 h-8" />
           </div>
           <h3 className="font-display text-xl font-bold text-brand-graphite-900">

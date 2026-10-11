@@ -110,7 +110,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
-      <body className="min-h-screen flex flex-col font-sans bg-brand-bg text-brand-graphite-900 antialiased selection:bg-brand-gold-200 selection:text-brand-graphite-900">
+      <body className="min-h-screen flex flex-col font-sans bg-brand-bg text-brand-graphite-900 antialiased selection:bg-brand-primary-200 selection:text-brand-graphite-900">
         <SettingsProvider settings={STORE_INFO}><CartProvider>
           {children}
           <QuoteDrawer />
